@@ -128,7 +128,14 @@ impl App {
         let preview = self.content.preview.clone();
         let headerbar = self.header.container.clone();
         self.header.open.connect_clicked(move |_| {
-            let open_dialog = OpenDialog::new();
+            let open_dialog = OpenDialog::new({
+                let lock = current_file.read().unwrap();
+                if let Some(ref path) = *lock {
+                    path.get_dir()
+                } else {
+                    None
+                }
+            });
 
             // Runs the dialog, and opens the file if a file was selected.
             if let Some(new_file) = open_dialog.run() {
@@ -137,8 +144,12 @@ impl App {
                     let mut contents = String::new();
                     let _ = file.read_to_string(&mut contents);
 
-                    // Update the title
+                    // Update the title and subtitle
                     set_title(&headerbar, &new_file);
+                    if let Some(parent) = new_file.parent() {
+                        let subtitle: &str = &parent.to_string_lossy();
+                        headerbar.set_subtitle(subtitle);
+                    }
 
                     // Set the shared file path as this file.
                     *current_file.write().unwrap() =

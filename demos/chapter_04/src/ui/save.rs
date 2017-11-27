@@ -36,7 +36,12 @@ pub fn save(
         // we have received.
         match result {
             Ok(SaveAction::New(file)) => {
-                set_title(headerbar, file.get_path());
+                // Update the title and subtitle
+                set_title(&headerbar, file.get_path());
+                if let Some(parent) = file.get_dir() {
+                    let subtitle: &str = &parent.to_string_lossy();
+                    headerbar.set_subtitle(subtitle);
+                }
                 let mut current_file = current_file.write().unwrap();
                 *current_file = Some(file);
                 save.set_sensitive(false);
@@ -65,7 +70,7 @@ fn _save(path: Option<&ActiveMetadata>, data: &[u8]) -> io::Result<SaveAction> {
             file.write_all(&data)?;
         }
         None => {
-            let save_dialog = SaveDialog::new();
+            let save_dialog = SaveDialog::new(None);
             if let Some(new_path) = save_dialog.run() {
                 let mut file =
                     OpenOptions::new().create(true).write(true).truncate(false).open(&new_path)?;

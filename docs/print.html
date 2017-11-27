@@ -1715,7 +1715,7 @@ create a new inner <strong>FileChooserDialog</strong>.</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
 #fn main() {
 impl OpenDialog {
-    pub fn new() -&gt; OpenDialog {
+    pub fn new(path: Option&lt;PathBuf&gt;) -&gt; OpenDialog {
         // Create a new file chooser dialog for opening a file.
         let open_dialog = FileChooserDialog::new(
             Some(&quot;Open&quot;),
@@ -1726,6 +1726,9 @@ impl OpenDialog {
         // Add the cancel and open buttons to that dialog.
         open_dialog.add_button(&quot;Cancel&quot;, ResponseType::Cancel.into());
         open_dialog.add_button(&quot;Open&quot;, ResponseType::Ok.into());
+
+        // Set the default path to open this with.
+        path.map(|p| open_dialog.set_current_folder(p));
 
         OpenDialog(open_dialog)
     }
@@ -1750,7 +1753,7 @@ knowing whether the user hit <strong>Cancel</strong> or <strong>Ok</strong>.</p>
 pub struct SaveDialog(FileChooserDialog);
 
 impl SaveDialog {
-    pub fn new() -&gt; SaveDialog {
+    pub fn new(path: Option&lt;PathBuf&gt;) -&gt; SaveDialog {
         // Initializes a new save as dialog, which is embedded within a new popup window.
         let save_dialog = FileChooserDialog::new(
             Some(&quot;Save As&quot;),
@@ -1761,6 +1764,9 @@ impl SaveDialog {
         // Add the cancel and save buttons to that dialog.
         save_dialog.add_button(&quot;Cancel&quot;, ResponseType::Cancel.into());
         save_dialog.add_button(&quot;Save&quot;, ResponseType::Ok.into());
+
+        // Set the default path to open this with.
+        path.map(|p| save_dialog.set_current_folder(p));
 
         SaveDialog(save_dialog)
     }
@@ -1988,6 +1994,8 @@ impl ActiveMetadata {
     }
 
     pub fn get_path&lt;'a&gt;(&amp;'a self) -&gt; &amp;'a Path { &amp;self.path }
+
+    pub fn get_dir(&amp;self) -&gt; Option&lt;PathBuf&gt; { self.path.parent().map(|p| p.to_path_buf()) }
 
     pub fn is_same_as(&amp;self, data: &amp;[u8]) -&gt; bool { &amp;keccak512(data)[..] == &amp;self.sum[..] }
 

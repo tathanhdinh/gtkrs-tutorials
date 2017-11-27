@@ -110,6 +110,8 @@ impl ActiveMetadata {
 
     pub fn get_path&lt;'a&gt;(&amp;'a self) -&gt; &amp;'a Path { &amp;self.path }
 
+    pub fn get_dir(&amp;self) -&gt; Option&lt;PathBuf&gt; { self.path.parent().map(|p| p.to_path_buf()) }
+
     pub fn is_same_as(&amp;self, data: &amp;[u8]) -&gt; bool { &amp;keccak512(data)[..] == &amp;self.sum[..] }
 
     pub fn set_sum(&amp;mut self, data: &amp;[u8]) { self.sum = keccak512(data); }
