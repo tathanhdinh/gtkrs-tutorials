@@ -1,10 +1,10 @@
 [package]
 authors = ["Michael Aaron Murphy <mmstickman@gmail.com>"]
-name = "chapter_04"
+name = "cmark-editor"
 version = "0.1.0"
 
 [dependencies]
-gdk = "0.6.0"
+gdk = "0.6"
 horrorshow = "0.6.2"
 pango = "0.2.0"
 pulldown-cmark = "0.1.0"

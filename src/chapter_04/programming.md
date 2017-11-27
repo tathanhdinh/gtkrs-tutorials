@@ -2,9 +2,14 @@
 
 This is where we begin to do the magic of getting our UI to actually
 do stuff. Revisiting our **app.rs** module, we will now add the
-**connect_events()** module to the impl for **App**. Yet before we begin,
-we should create the **ConnectedApp** wrapper in advance, which implements
-the **then_execute()** method that we saw before.
+**connect_events()** module to the impl for **App**.
+
+## ConnectedApp
+
+Before we begin, however, we should create the **ConnectedApp** wrapper
+in advance, which implements the **then_execute()** method that we saw before.
+The goal will be to convert the **App** into a **ConnectedApp** after the
+**connect_events()** method is invoked on the **App**.
 
 ```rust
 /// A wrapped `App` which provides the capability to execute the program.
@@ -19,27 +24,45 @@ impl ConnectedApp {
 }
 ```
 
-Moving on...
+## connect_events()
+
+Moving on, we will finally add the **connect_events()** method to the **impl**
+for the **App** type, which we will define to take ownership of the **App**
+and return a **ConnectedApp** at the end. This is 
 
 ```rust
 /// Creates external state, and maps all of the UI functionality to the UI.
-pub fn connect_events(self) -> ConnectedApp {
-    // External state to share across events.
-    let current_file = Arc::new(RwLock::new(None));
+impl App {
+    pub fn new() -> App { ... }
 
-    // Connect all of the events that this UI will act upon.
-    self.editor_changed(current_file.clone(), &self.header.save.clone());
+    pub fn connect_events(self) -> ConnectedApp {
+        // External state to share across events.
+        let current_file = Arc::new(RwLock::new(None));
 
-    // Wrap the `App` within `ConnectedApp` to enable the developer to execute the program.
-    ConnectedApp(self)
+        // Connect all of the events that this UI will act upon.
+        self.editor_changed(
+            current_file.clone(),
+            &self.header.save.clone()
+        );
+
+        // Wrap the `App` within `ConnectedApp` to enable the developer
+        // to execute the program.
+        ConnectedApp(self)
+    }
 }
 ```
 
-As seen above, we are starting out with a single external component, which
-we have named as **current_file**. This is what will store an
-**Option<ActiveMetadata>**, the type which we created for keeping track of
-what file is currently opened, and a hash that will be used to indicate
-whether the save button should be sensitive or not. A button that is not
-sensitive, is a button that you cannot click.
+Using the **ActiveMetadata** type that we created before to maintain the
+extern state in regards to the currently-active file, we will create a 
+**RwLock'd** **current_file** variable, which will contain an
+**Option\<ActiveMetadata\>**. By default, this will be set to **None**,
+as at first there will not be a file opened to track.
 
-The next section will detail that **editor_changed()** method.
+The first event to connect to our application will be to act upon changes
+to the source buffer, which we will implement in a **editor_changed()**
+method. This method will take a reference to our **RwLock'd** **current_file**,
+as well as a reference to the **Save** button. The purpose of passing the
+save button in will be to modify it's *sensitivity* based on the contents of
+the buffer.
+
+> A button that is not sensitive, is a button that you cannot click.

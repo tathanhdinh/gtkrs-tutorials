@@ -1,6 +1,8 @@
 # Markdown to HTML
 
-In this section, we will be implementing the **preview.rs** module.
+Before we implement the **connect_changed()** method, we need to first
+implement the **preview** module that this method will use to get the
+HTML string to pass on to the web view.
 
 There are two steps to the process of converting markdown into HTML. The first
 step involves simply converting the markdown into HTML! Yet that's not enough,
@@ -32,16 +34,15 @@ fn mark_to_html(markdown: &str) -> String {
 
 ## Applying Styling to Our HTML
 
-But we don't want to stop there, so we will use the above function
-within our public **render()** function to integrate it alongside
-some CSS and JavaScript to get the desired HTML output in the web
-view.
+But we don't want to stop there, so we will use the above function within
+our public **render()** function to integrate it alongside some CSS and
+JavaScript to get the desired HTML output in the web view.
 
-> Note that we are supplying the HTML from our markdown into
-the **body** section of the HTML page, and have it wrapped as a
-**Raw** string to tell the **horrorshow** macro to not escape the
-inner text. You may apply additional styling if you would prefer
-even more styling to your text.
+> Note that we are supplying the HTML from our markdown into the **body**
+> section of the HTML page, and have it wrapped as a **Raw** string to
+> tell the **horrorshow** macro to not escape the inner text. You may
+> apply additional styling if you would prefer even more styling to your
+> text.
 
 ```rust
 use horrorshow::Raw;
@@ -62,7 +63,8 @@ pub fn render(markdown: &str) -> String {
                         : Raw("hljs.initHighlightingOnLoad()")
                     }
                     style {
-                        : "body { width: 80%; margin: 0 auto }"
+                        : "body { width: 80%; margin: 0 auto }";
+                        : "img { max-width: 80% }"
                     }
                 }
                 body {

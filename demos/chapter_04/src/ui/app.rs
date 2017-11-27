@@ -191,11 +191,8 @@ impl App {
             if let Some(markdown) = get_buffer(&editor) {
                 preview.load_html(&render(&markdown), None);
                 if let Some(ref current_file) = *current_file.read().unwrap() {
-                    if current_file.is_same_as(&markdown.as_bytes()) {
-                        save_button.set_sensitive(false);
-                    } else {
-                        save_button.set_sensitive(true);
-                    }
+                    let has_same_sum = current_file.is_same_as(&markdown.as_bytes());
+                    save_button.set_sensitive(!has_same_sum);
                 }
             }
         });

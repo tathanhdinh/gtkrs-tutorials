@@ -1,11 +1,11 @@
 # Updating WebViews
 
 The first capability that we will connect to our UI is to update the web view
-preview dynamically, as the text in the source buffer is changed. We will begin
-by creating a new **editor_changed()** method, which takes the **current_file**
-component, and a reference to the **save** button so that we can disable and
-enable the button over time, to indicate whether changes have been made that
-require saving.
+preview dynamically as text in the source buffer is changed. We will begin
+by creating a new **editor_changed()** method for **App**, which takes the
+**current_file** component, and a reference to the **save** button so that we
+can disable and enable the button over time, to indicate whether changes have
+been made that require saving.
 
 ```rust
 /// Updates the WebView when the SourceBuffer is modified.
@@ -20,11 +20,8 @@ fn editor_changed(
         if let Some(markdown) = get_buffer(&editor) {
             preview.load_html(&render(&markdown), None);
             if let Some(ref current_file) = *current_file.read().unwrap() {
-                if current_file.is_same_as(&markdown.as_bytes()) {
-                    save_button.set_sensitive(false);
-                } else {
-                    save_button.set_sensitive(true);
-                }
+                let has_same_sum = current_file.is_same_as(&markdown.as_bytes());
+                save_button.set_sensitive(!has_same_sum);
             }
         }
     });

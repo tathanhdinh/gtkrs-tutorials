@@ -15,8 +15,6 @@ will be managing external state within the program.
 
 ## Creating Modules
 
-<img src="images/ch04_modules.png" />
-
 The **preview** and **state** modules are relatively simple, and so they
 can simply be individual Rust files: **preview.rs** and **state.rs**. The
 **ui** module will be much more complex, however, and so that module will
