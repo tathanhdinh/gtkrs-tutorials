@@ -69,6 +69,77 @@
 
                 <div id="content" class="content">
                     <a class="header" href="./chapter_04/markdown_to_html.html#markdown-to-html" id="markdown-to-html"><h1>Markdown to HTML</h1></a>
+<p>In this section, we will be implementing the <strong>preview.rs</strong> module.</p>
+<p>There are two steps to the process of converting markdown into HTML. The first
+step involves simply converting the markdown into HTML! Yet that's not enough,
+you also need to embed that within additional HTML to style it and get some
+syntax highlighting support with a bit of JavaScript. Not to worry though,
+because we will be using <strong>highlight.js</strong> to take care of syntax highlighting
+for us.</p>
+<a class="header" href="./chapter_04/markdown_to_html.html#converting-markdown-to-html" id="converting-markdown-to-html"><h2>Converting Markdown to HTML</h2></a>
+<p>Google has thankfully provided a crate to do just this with
+<a href="https://github.com/google/pulldown-cmark">pulldown-cmark</a>. It notes that
+it is implemented as a pull parser for increased efficiency compared to
+non-pull parsers. All you have to do is provide markdown text in a <strong>&amp;str</strong>
+to the provider <strong>Parser</strong>, and then suppliy a mutable <strong>String</strong> reference
+to pull in the HTML equivalent of the markup.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+use pulldown_cmark::{html, Parser};
+
+/// In goes markdown text; out comes HTML text.
+fn mark_to_html(markdown: &amp;str) -&gt; String {
+    let parser = Parser::new(&amp;markdown);
+    let mut buffer = String::new();
+    html::push_html(&amp;mut buffer, parser);
+    buffer
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_04/markdown_to_html.html#applying-styling-to-our-html" id="applying-styling-to-our-html"><h2>Applying Styling to Our HTML</h2></a>
+<p>But we don't want to stop there, so we will use the above function
+within our public <strong>render()</strong> function to integrate it alongside
+some CSS and JavaScript to get the desired HTML output in the web
+view.</p>
+<blockquote>
+<p>Note that we are supplying the HTML from our markdown into
+the <strong>body</strong> section of the HTML page, and have it wrapped as a
+<strong>Raw</strong> string to tell the <strong>horrorshow</strong> macro to not escape the
+inner text. You may apply additional styling if you would prefer
+even more styling to your text.</p>
+</blockquote>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+use horrorshow::Raw;
+use horrorshow::helper::doctype;
+
+/// In goes markdown text; out comes stlyish HTML text.
+pub fn render(markdown: &amp;str) -&gt; String {
+    format!(
+        &quot;{}&quot;,
+        html!(
+            : doctype::HTML;
+            html {
+                head {
+                    link(rel=&quot;stylesheet&quot;, href=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css&quot;) {}
+                    script(src=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js&quot;) {}
+                    script(src=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/rust.min.js&quot;) {}
+                    script {
+                        : Raw(&quot;hljs.initHighlightingOnLoad()&quot;)
+                    }
+                    style {
+                        : &quot;body { width: 80%; margin: 0 auto }&quot;
+                    }
+                }
+                body {
+                    : Raw(&amp;mark_to_html(markdown));
+                }
+            }
+        )
+    )
+}
+
+#}</code></pre></pre>
 
                 </div>
 

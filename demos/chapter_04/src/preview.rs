@@ -3,11 +3,15 @@ use horrorshow::helper::doctype;
 use pulldown_cmark::{html, Parser};
 
 /// In goes markdown text; out comes HTML text.
-pub fn render(markdown: &str) -> String {
+fn mark_to_html(markdown: &str) -> String {
     let parser = Parser::new(&markdown);
     let mut buffer = String::new();
     html::push_html(&mut buffer, parser);
+    buffer
+}
 
+/// In goes markdown text; out comes stylish HTML text.
+pub fn render(markdown: &str) -> String {
     format!(
         "{}",
         html!(
@@ -25,7 +29,7 @@ pub fn render(markdown: &str) -> String {
                     }
                 }
                 body {
-                    : Raw(&buffer);
+                    : Raw(&mark_to_html(markdown));
                 }
             }
         )
