@@ -202,6 +202,8 @@ view.set_show_line_numbers(true);
 view.set_monospace(true);
 view.set_insert_spaces_instead_of_tabs(true);
 view.set_indent_width(4);
+// TODO: Next GTK Crate Release
+// view.set_input_hints(InputHints::SPELLCHECK + InputHints::WORD_COMPLETION);
 ```
 
 We can use the **pango** crate to change the font within the view. Note

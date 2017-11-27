@@ -50,6 +50,8 @@ impl Source {
         view.set_monospace(true);
         view.set_insert_spaces_instead_of_tabs(true);
         view.set_indent_width(4);
+        // TODO: Next GTK Crate Release
+        // view.set_input_hints(InputHints::SPELLCHECK + InputHints::WORD_COMPLETION);
 
         // Configures the font to use with our source view, which shall be the default monospace
         // font, at size 11. When overriding the font, we need to explicitly state the trait
