@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Conclusion &amp; Review - </title>
+        <title>Content Management System - </title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,7 +48,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Window With A Header Bar</a></li><li><a href="./chapter_02.html"><strong>3.</strong> Button Boxer</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html"><strong>3.1.</strong> Boxes, Buttons, &amp; Labels</a></li><li><a href="./chapter_02_state.html"><strong>3.2.</strong> Maintaining External State</a></li><li><a href="./chapter_02_ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html"><strong>4.</strong> HTML Articler</a></li><li><ul class="section"><li><a href="./chapter_03_objects.html"><strong>4.1.</strong> Entries, Panes, Scrolled Windows, &amp; Text Views</a></li><li><a href="./chapter_03_horrorshow.html"><strong>4.2.</strong> Horrorshow HTML Templating</a></li><li><a href="./chapter_03_ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03_programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03_review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li></ul>
+            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Window With A Header Bar</a></li><li><a href="./chapter_02/index.html"><strong>3.</strong> Button Boxer</a></li><li><ul class="section"><li><a href="./chapter_02/objects.html"><strong>3.1.</strong> Boxes, Buttons, &amp; Labels</a></li><li><a href="./chapter_02/state.html"><strong>3.2.</strong> Maintaining External State</a></li><li><a href="./chapter_02/ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02/programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02/review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03/index.html"><strong>4.</strong> HTML Articler</a></li><li><ul class="section"><li><a href="./chapter_03/objects.html"><strong>4.1.</strong> Entries, Panes, Scrolled Windows, &amp; Text Views</a></li><li><a href="./chapter_03/horrorshow.html"><strong>4.2.</strong> Horrorshow HTML Templating</a></li><li><a href="./chapter_03/ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03/programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03/review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_04/index.html"><strong>5.</strong> Simple Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_04/objects.html"><strong>5.1.</strong> Source Views, Web Views, &amp; File Dialogs</a></li><li><a href="./chapter_04/mods.html"><strong>5.2.</strong> Setting Up Modules</a></li><li><a href="./chapter_04/ui.html"><strong>5.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_04/file_choosers.html"><strong>5.4.</strong> File Chooser Dialogs</a></li><li><a href="./chapter_04/programming.html"><strong>5.5.</strong> Connecting Events</a></li><li><a href="./chapter_04/markdown_to_html.html"><strong>5.6.</strong> Markdown to HTML</a></li><li><a href="./chapter_04/webviews.html"><strong>5.7.</strong> Updating WebViews</a></li><li><a href="./chapter_04/keys.html"><strong>5.8.</strong> Binding Keys</a></li><li><a href="./chapter_04/review.html"><strong>5.9.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_05/index.html"><strong>6.</strong> Advanced Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_05/objects.html"><strong>6.1.</strong> Menu Buttons, Notebooks, &amp; Stacks</a></li></ul></li><li><a href="./chapter_06/index.html"><strong>7.</strong> Content Management System</a></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -800,7 +800,7 @@ scrolled_window.add(&amp;text_view);
 
 #}</code></pre></pre>
 <a class="header" href="print.html#horrorshow-html-templating" id="horrorshow-html-templating"><h1>Horrorshow HTML Templating</h1></a>
-<p>Although not related to GTK development, the <a href="docs.rs/horrorshow/">horrorshow crate</a> provides
+<p>Although not related to GTK development, the <a href="https://docs.rs/horrorshow/">horrorshow crate</a> provides
 very useful macro-based HTML templating capabilities, which allows you to efficiently generate
 an HTML string in memory using a DSL (domain-specific language) combined with Rust, which can
 be invoked through usage of the <code>@</code> sigil.</p>
@@ -1226,6 +1226,661 @@ applications with Rust. At this point, you should know how to do the following:<
 <li>Maintaining External States</li>
 </ul>
 <a class="header" href="print.html#practice-challenges-1" id="practice-challenges-1"><h2>Practice Challenges</h2></a>
+<a class="header" href="print.html#simple-common-mark-editor" id="simple-common-mark-editor"><h1>Simple Common Mark Editor</h1></a>
+<p>In this chapter, we will create a useful program for editing text with
+Markdown syntax -- particularly the Common Mark flavor of Markdown, and
+rendering that text into a live HTML preview as text is entered into the
+program. As a fun fact, this chapter was actually written with the
+completed program that we are going to build. So you could say that this
+tutorial is now fully self-hosted using it's own dog food.</p>
+<a class="header" href="print.html#dependencies" id="dependencies"><h2>Dependencies</h2></a>
+<p>Your dependency list should look similar to the following:</p>
+<pre><code class="language-toml">[dependencies]
+gdk = &quot;0.6.0&quot;
+horrorshow = &quot;0.6.2&quot;
+pango = &quot;0.2.0&quot;
+pulldown-cmark = &quot;0.1.0&quot;
+sourceview = &quot;0.2&quot;
+tiny-keccak = &quot;1.4.0&quot;
+webkit2gtk = &quot;0.2&quot;
+
+[dependencies.gtk]
+features = [&quot;v3_22&quot;]
+version = &quot;0.2&quot;
+</code></pre>
+<a class="header" href="print.html#pulldown-cmark" id="pulldown-cmark"><h3>pulldown-cmark</h3></a>
+<p>One will note that we have introduced a few new crates to the mix. Google
+has provided the <a href="https://github.com/google/pulldown-cmark">pulldown-cmark crate</a>,
+which provides a pull parser for Common Mark Markdown syntax, and thereby allows
+us to convert Markdown into HTML.</p>
+<a class="header" href="print.html#tiny-keccak" id="tiny-keccak"><h3>tiny-keccak</h3></a>
+<p>We will be using a hashing algorithm to determine when the save button should be
+sensitive or not. Basically, we will hash the buffer upon each key press and compare
+it to the saved file's hash. If the hashes match, the save button shall be enabled.
+Otherwise, the save button will be disabled.s</p>
+<a class="header" href="print.html#sourceview" id="sourceview"><h3>sourceview</h3></a>
+<p>This will provide access to the <strong>GtkSourceView</strong> widget that we will be using
+to create the code editor that our editor will be using for editing Markdown.</p>
+<a class="header" href="print.html#webkit2gtk" id="webkit2gtk"><h3>webkit2gtk</h3></a>
+<p>This will provide the <strong>GtkWebView</strong> widget which we will be using to render
+a live preview of our edited Markdown.</p>
+<a class="header" href="print.html#pango" id="pango"><h3>pango</h3></a>
+<p>This will enable us to edit the font in the <strong>GtkSourceView</strong>.</p>
+<a class="header" href="print.html#gdk" id="gdk"><h3>gdk</h3></a>
+<p>We will use this to act upon certain key presses</p>
+<a class="header" href="print.html#file-chooser-dialogs-source-views--web-views" id="file-chooser-dialogs-source-views--web-views"><h1>File Chooser Dialogs, Source Views, &amp; Web Views</h1></a>
+<a class="header" href="print.html#gtkwebview" id="gtkwebview"><h2>GtkWebView</h2></a>
+<p>Provided by the <a href="https://crates.io/crates/webkit2gtk">webkit2gtk crate</a>, this a widget that
+already integrates a scrolled window and simply provides an embedded web engine for rendering
+HTML. The purpose of this widget within this chapter is to provide the rendered HTML
+representations of the markdown text within the source buffer.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+let context = WebContext::get_default().unwrap();
+let webview = WebView::new_with_context(&amp;context);
+
+#}</code></pre></pre>
+<p>For our purposes, we will simply be shuttling the HTML output of the horrorshow crate into
+the web view directly, which can be done by using the <code>load_html()</code> method.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+webview.load_html(&amp;html, None);
+
+#}</code></pre></pre>
+<a class="header" href="print.html#gtksourceview" id="gtksourceview"><h2>GtkSourceView</h2></a>
+<p>Provided by the <a href="https://crates.io/crates/sourceview">sourceview crate</a>, this is an enhanced
+<strong>GtkTextView</strong> which provides some much-needed code editing improvements. Alas, don't expect
+too much from it, as it's still relatively primitive in it's current state.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+let source_buffer = Buffer::new(None);
+let source_view = View::new_with_buffer(&amp;source_buffer);
+
+#}</code></pre></pre>
+<p>The default settings are basically no different from a normal <strong>GtkTextView</strong> though, so
+you will immediately want to configure the source view that you create according to your
+needs, as we will see in this tutorial.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+source_view.set_show_line_numbers(true);
+source_view.set_monospace(true);
+let font = FontDescription::from_string(&quot;monospace 11&quot;);
+WidgetExt::override_font(&amp;source_view, &amp;font);
+
+#}</code></pre></pre>
+<a class="header" href="print.html#gtkfilechooserdialog" id="gtkfilechooserdialog"><h2>GtkFileChooserDialog</h2></a>
+<p><strong>GtkFileChooserDialogs</strong> will be used to program the file open/save/save as buttons. They
+simply open a file chooser dialog where you are given the choice to select a file. The GTK
+Rust API is a bit under-developed in this part, as you will see. One particular gotcha is
+that the <strong>FileChooserDialogs</strong> that you obtain from this API do not take advantage of
+Rust's <strong>Drop</strong> trait. Not to worry though, as we will be creating abstractions ourselves.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Create a new file chooser dialog for opening a file.
+let open_dialog = FileChooserDialog::new(
+    Some(&quot;Open&quot;),
+    Some(&amp;Window::new(WindowType::Popup)),
+    FileChooserAction::Open,
+);
+
+// Add the cancel and open buttons to that dialog.
+open_dialog.add_button(&quot;Cancel&quot;, ResponseType::Cancel.into());
+open_dialog.add_button(&quot;Open&quot;, ResponseType::Ok.into());
+
+// Run the dialog and the response type back.
+if open_dialog.run() == ResponseType::Ok.into() {
+    if let Some(filename) = open_dialog.get_filename() {
+        // Do something with the received `PathBuf`.
+    }
+}
+
+// Destroy the dialog window. Be careful not to return from a function
+// without first destroying the dialog! A wrapper type will help.
+open_dialog.destroy();
+
+#}</code></pre></pre>
+<a class="header" href="print.html#setting-up-modules" id="setting-up-modules"><h1>Setting Up Modules</h1></a>
+<p><img src="images/ch04_mod_diagram.png" /></p>
+<p>With this chapter, we are going to begin to use modules to compartmentalize
+code within manageable files. Following the above diagram, we shall separate
+the GTK-specific code from the rest of the codebase accordingly.</p>
+<ul>
+<li>The <strong>ui</strong> module will contain all of the code relevant to building and
+executing the GTK program.</li>
+<li>The <strong>preview</strong> module will be responsible for generating the HTML from the
+provided Markdown.</li>
+<li>The <strong>state</strong> module will be responsible for holding our custom types that
+will be managing external state within the program.</li>
+</ul>
+<a class="header" href="print.html#creating-modules" id="creating-modules"><h2>Creating Modules</h2></a>
+<p><img src="images/ch04_modules.png" /></p>
+<p>The <strong>preview</strong> and <strong>state</strong> modules are relatively simple, and so they
+can simply be individual Rust files: <strong>preview.rs</strong> and <strong>state.rs</strong>. The
+<strong>ui</strong> module will be much more complex, however, and so that module will
+consist of a series of modules on it's own. As a result, it should be a
+<strong>ui</strong> directory where the point of entry into this module will be a
+<strong>mod.rs</strong> file within that directory.</p>
+<a class="header" href="print.html#the-mainrs-file" id="the-mainrs-file"><h2>The main.rs File</h2></a>
+<p>Once we have the basic modules set up, we will wire everything together
+to the main point of entry into our program: the <strong>main.rs</strong> file. It
+should look like so to get started.</p>
+<pre><pre class="playpen"><code class="language-rust">extern crate gdk;
+extern crate gtk;
+#[macro_use]
+extern crate horrorshow;
+extern crate pango;
+extern crate pulldown_cmark;
+extern crate sourceview;
+extern crate tiny_keccak;
+extern crate webkit2gtk;
+
+pub mod preview;
+pub mod state;
+pub mod ui;
+
+use ui::App;
+
+fn main() {
+    // Initialize the UI's initial state
+    App::new()
+        // Connect events to the UI
+        .connect_events()
+        // Display the UI and execute the program
+        .then_execute();
+}
+</code></pre></pre>
+<p>You may notice that we have changed things up from the last chapter. In
+this chapter, we are going to use the <strong>Builder</strong> pattern to set up and
+execute our program. This can be a useful pattern to employ that can
+eliminate would-be API logic errors at compile time.</p>
+<p>The <code>App::new()</code> method will create a new <strong>App</strong>, which we will move
+into the <code>connect_events()</code> method, which converts the <strong>App</strong> into a
+<strong>ConnectedApp</strong>, and that type implements <code>then_execute()</code>, which shall
+display the UI and execute the main event loop.</p>
+<a class="header" href="print.html#creating-the-ui-structure-2" id="creating-the-ui-structure-2"><h1>Creating the UI Structure</h1></a>
+<p><img src="images/ch04_ui_diagram.png" /></p>
+<p>Following the above diagram, we will begin by creating three modules
+within the <strong>ui</strong> module: <strong>app.rs</strong>, <strong>header.rs</strong>, <strong>content.rs</strong>.
+These three files will hold the <strong>App</strong>, <strong>ConnectedApp</strong>, <strong>Header</strong>,
+<strong>Content</strong>, and <strong>Source</strong> structures.</p>
+<a class="header" href="print.html#implementing-the-ui-module" id="implementing-the-ui-module"><h2>Implementing the UI Module</h2></a>
+<p>Now that UI-related code is separated into it's own module, it's
+important to declare all of the submodules that this module will
+important, and declare any types and functions that this module
+should re-export.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+mod app;
+mod content;
+mod dialogs;
+mod header;
+pub mod misc;
+pub mod save;
+
+pub use self::app::App;
+pub use self::content::Content;
+pub use self::dialogs::{OpenDialog, SaveDialog};
+pub use self::header::Header;
+
+#}</code></pre></pre>
+<p>As can be seen above, we are going to create the following modules:
+<strong>app.rs</strong>, <strong>content.rs</strong>, <strong>dialogs.rs</strong>, <strong>save.rs</strong>, <strong>header.rs</strong>,
+and <strong>misc.rs</strong>.</p>
+<a class="header" href="print.html#implementing-the-app-structure" id="implementing-the-app-structure"><h2>Implementing the App Structure</h2></a>
+<p>This section should be fairly straightforward, as it is essentially
+identical to previous chapters. The one main difference to note
+is that we have moved the initialization of GTK into the beginning
+of the <strong>App</strong> implementation.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+use gtk;
+use gtk::*;
+use super::Header;
+use super::Content;
+
+pub struct App {
+    pub window:  Window,
+    pub header:  Header,
+    pub content: Content,
+}
+
+impl App {
+    pub fn new() -&gt; App {
+        // Initialize GTK before proceeding.
+        if gtk::init().is_err() {
+            eprintln!(&quot;failed to initialize GTK Application&quot;);
+            process::exit(1);
+        }
+
+        // Create a new top level window.
+        let window = Window::new(WindowType::Toplevel);
+        // Create a the headerbar and it's associated content.
+        let header = Header::new();
+        // Create the content container and all of it's widgets.
+        let content = Content::new();
+
+        // Set the headerbar as the title bar widget.
+        window.set_titlebar(&amp;header.container);
+        // Set the title of the window.
+        window.set_title(&quot;Markdown Editor&quot;);
+        // Set the window manager class.
+        window.set_wmclass(&quot;md-editor&quot;, &quot;Markdown Editor&quot;);
+        // The icon the app will display.
+        window.set_default_size(800, 600);
+        Window::set_default_icon_name(&quot;iconname&quot;);
+        // Add the content to the window.
+        window.add(&amp;content.container);
+
+        // Programs what to do when the exit button is used.
+        window.connect_delete_event(move |_, _| {
+            main_quit();
+            Inhibit(false)
+        });
+
+        // Return the application structure.
+        App { window, header, content }
+    }
+}
+
+#}</code></pre></pre>
+<a class="header" href="print.html#implementing-the-header-structure" id="implementing-the-header-structure"><h2>Implementing the Header Structure</h2></a>
+<p>This structure will be even easier to implement. We will be implementing
+<strong>Open</strong>, <strong>Save</strong>, and <strong>Save As</strong> buttons within the header bar. We
+shall set their labels with a mnemonic, so that users have the ability
+to hold the <strong>Alt</strong> key, and select the button that they want to click
+by hitting the character that is underlined in the button label.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+use gtk::*;
+
+pub struct Header {
+    pub container: HeaderBar,
+    pub open:      Button,
+    pub save:      Button,
+    pub save_as:   Button,
+}
+
+impl Header {
+    pub fn new() -&gt; Header {
+        // Creates the main header bar container widget.
+        let container = HeaderBar::new();
+
+        // Sets the text to display in the title section of the header bar.
+        container.set_title(&quot;Markdown Editor&quot;);
+        // Enable the window controls within this headerbar.
+        container.set_show_close_button(true);
+
+        let open = Button::new_with_mnemonic(&quot;_Open&quot;);
+        let save = Button::new_with_mnemonic(&quot;_Save&quot;);
+        let save_as = Button::new_with_mnemonic(&quot;Save _As&quot;);
+        container.pack_start(&amp;open);
+        container.pack_end(&amp;save_as);
+        container.pack_end(&amp;save);
+
+        // Returns the header and all of it's state
+        Header { container, open, save, save_as }
+    }
+}
+
+
+#}</code></pre></pre>
+<a class="header" href="print.html#implementing-the-content-structure" id="implementing-the-content-structure"><h2>Implementing the Content Structure</h2></a>
+<p>This is where we are going to introduce <strong>GtkWebViews</strong>,
+and <strong>GtkSourceViews</strong>.</p>
+<a class="header" href="print.html#creating-a-web-view" id="creating-a-web-view"><h3>Creating a Web View</h3></a>
+<p>Web views are very simple to create. By invoking the following code,
+you will have constructed a web view that you may integrate within
+your UI the same as you do with all other widgets.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Create a the WebView for the preview pane.
+let context = WebContext::get_default().unwrap();
+let preview = WebView::new_with_context(&amp;context);
+
+#}</code></pre></pre>
+<p>These web views come already wrapped with scrolling capabilities,
+so that functionality does not have to implemented.</p>
+<a class="header" href="print.html#creating--configuring-source-views" id="creating--configuring-source-views"><h3>Creating &amp; Configuring Source Views</h3></a>
+<p>Source views, on the other hand, are a bit more complex, because
+they will require some additional configuration to get the results
+that you want in your UI. We are going to strive to have the
+following default configuration for our source view:</p>
+<ul>
+<li>Tabs should write four spaces</li>
+<li>The view should show line numbers</li>
+<li>We should use the default monospace font at size 11</li>
+<li>Markdown syntax highlighting</li>
+<li>Attempt to use the Builder theme by default, and fallback to Classic</li>
+</ul>
+<p>First we start by constructing our <strong>Source</strong> structure.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub struct Source {
+    pub container: ScrolledWindow,
+    pub view:      View,
+    pub buff:      Buffer,
+}
+
+impl Source {
+    fn new() -&gt; Source {
+
+    }
+}
+
+#}</code></pre></pre>
+<p>Then we will create our source buffer and view, which is identical to
+how we would do it with a regular text buffer and view. Once created,
+we will wrap the view within a scrolled window.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Create the SourceView for the editor on the left pane.
+let buff = Buffer::new(None);
+let view = View::new_with_buffer(&amp;buff);
+let container = ScrolledWindow::new(None, None);
+container.add(&amp;view);
+
+#}</code></pre></pre>
+<p>Then we set our desired configurations:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+view.set_show_line_numbers(true);
+view.set_monospace(true);
+view.set_insert_spaces_instead_of_tabs(true);
+view.set_indent_width(4);
+
+#}</code></pre></pre>
+<p>We can use the <strong>pango</strong> crate to change the font within the view. Note
+that we needed to explicitly declare from which trait the <strong>override_font</strong>
+method comes from. A future GTK Rust API update may address this issue.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Configures the font to use with our source view, which shall be the default monospace
+// font, at size 11. When overriding the font, we need to explicitly state the trait
+// from where the method is coming from, due to two methods implementing the same method.
+let font = FontDescription::from_string(&quot;monospace 11&quot;);
+WidgetExt::override_font(&amp;view, &amp;font);
+
+#}</code></pre></pre>
+<p>Then we want to enable markdown syntax highlighting by default. Languages
+are obtained from a <strong>LanguageManager</strong>. We will assign the language
+directly to the source buffer, rather than the source view.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Configure markdown syntax highlighting
+if let Some(markdown) = LanguageManager::new().get_language(&quot;markdown&quot;) {
+    buff.set_language(&amp;markdown);
+}
+
+#}</code></pre></pre>
+<a class="header" href="print.html#completed-source-code" id="completed-source-code"><h3>Completed Source Code</h3></a>
+<p>Altogether, the source code for this file should be as follows:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+use gtk::*;
+use pango::*;
+use sourceview::*;
+use webkit2gtk::*;
+
+pub struct Content {
+    pub container: Paned,
+    pub source:    Source,
+    pub preview:   WebView,
+}
+
+pub struct Source {
+    pub container: ScrolledWindow,
+    pub view:      View,
+    pub buff:      Buffer,
+}
+
+impl Content {
+    pub fn new() -&gt; Content {
+        // Create the Paned container for the main content
+        let container = Paned::new(Orientation::Horizontal);
+        let source = Source::new();
+
+        // Create a the WebView for the preview pane.
+        let context = WebContext::get_default().unwrap();
+        let preview = WebView::new_with_context(&amp;context);
+
+        // Pack it in
+        container.pack1(&amp;source.container, true, true);
+        container.pack2(&amp;preview, true, true);
+
+        // Ensure that the two panes get half the size of the paned container.
+        source.container.set_size_request(100, -1);
+        preview.set_size_request(100, -1);
+
+        Content { container, source, preview }
+    }
+}
+
+impl Source {
+    pub fn new() -&gt; Source {
+        // Create the SourceView for the editor on the left pane.
+        let buff = Buffer::new(None);
+        let view = View::new_with_buffer(&amp;buff);
+        let container = ScrolledWindow::new(None, None);
+        container.add(&amp;view);
+
+        // Set source view settings
+        view.set_show_line_numbers(true);
+        view.set_monospace(true);
+        view.set_insert_spaces_instead_of_tabs(true);
+        view.set_indent_width(4);
+
+        // Configures the font to use with our source view, which shall be the default monospace
+        // font, at size 11. When overriding the font, we need to explicitly state the trait
+        // from where the method is coming from, due to two methods implementing the same method.
+        let font = FontDescription::from_string(&quot;monospace 11&quot;);
+        WidgetExt::override_font(&amp;view, &amp;font);
+
+        // Configure markdown syntax highlighting
+        if let Some(markdown) = LanguageManager::new().get_language(&quot;markdown&quot;) {
+            buff.set_language(&amp;markdown);
+        }
+
+        // Set the theme of source buffer
+        let manager = StyleSchemeManager::new();
+        if let Some(theme) = manager.get_scheme(&quot;Builder&quot;).or(manager.get_scheme(&quot;Classic&quot;)) {
+            buff.set_style_scheme(&amp;theme);
+        }
+
+        Source { container, buff, view }
+    }
+}
+
+#}</code></pre></pre>
+<a class="header" href="print.html#file-chooser-dialogs" id="file-chooser-dialogs"><h1>File Chooser Dialogs</h1></a>
+<blockquote>
+<p>Note that this is the dialogs.rs module</p>
+</blockquote>
+<p>The GTK Rust API does not take advantage of the <strong>Drop</strong> trait within
+Rust, which means that when a dialog is spawned, it will continue
+to remain in existence on your screen forever. Thankfully, we can
+address this ourselves by creating wrapper types for
+<strong>GtkFileChooserDialogs</strong> and implementing the <strong>Drop</strong> trait on
+them to destroy the inner dialog upon dropping the type.</p>
+<a class="header" href="print.html#creating-an-opendialog" id="creating-an-opendialog"><h2>Creating an OpenDialog</h2></a>
+<p>With this, you will start by simply creating a new tuple type.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub struct OpenDialog(FileChooserDialog);
+
+#}</code></pre></pre>
+<p>And simply implementing the <strong>new()</strong> method on this type to
+create a new inner <strong>FileChooserDialog</strong>.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+impl OpenDialog {
+    pub fn new() -&gt; OpenDialog {
+        // Create a new file chooser dialog for opening a file.
+        let open_dialog = FileChooserDialog::new(
+            Some(&quot;Open&quot;),
+            Some(&amp;Window::new(WindowType::Popup)),
+            FileChooserAction::Open,
+        );
+
+        // Add the cancel and open buttons to that dialog.
+        open_dialog.add_button(&quot;Cancel&quot;, ResponseType::Cancel.into());
+        open_dialog.add_button(&quot;Open&quot;, ResponseType::Ok.into());
+
+        OpenDialog(open_dialog)
+    }
+}
+
+#}</code></pre></pre>
+<p>The gist of a <strong>FileChooserDialog</strong> is to designate the name of
+the dialog, followed by providing a new window of the <strong>Popup</strong>
+variety, and then choosing the corresponding <strong>FileChooserAction</strong>
+that meets the criteria that you are going for. In this case, we
+are creating an <strong>Open</strong> dialog to open a file.</p>
+<p>Once created, you then need to specify the labels for the two
+buttons within the dialog, and map the corresponding
+<strong>ResponseTypes</strong> to those buttons. This is very important for
+knowing whether the user hit <strong>Cancel</strong> or <strong>Ok</strong>.</p>
+<p>Once we are all done, we simply need to wrap the type up in our
+<strong>OpenDialog</strong> type and that's it.</p>
+<a class="header" href="print.html#creating-a-savedialog" id="creating-a-savedialog"><h2>Creating a SaveDialog</h2></a>
+<p>The Save dialog is essentially identical.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub struct SaveDialog(FileChooserDialog);
+
+impl SaveDialog {
+    pub fn new() -&gt; SaveDialog {
+        // Initializes a new save as dialog, which is embedded within a new popup window.
+        let save_dialog = FileChooserDialog::new(
+            Some(&quot;Save As&quot;),
+            Some(&amp;Window::new(WindowType::Popup)),
+            FileChooserAction::Save,
+        );
+
+        // Add the cancel and save buttons to that dialog.
+        save_dialog.add_button(&quot;Cancel&quot;, ResponseType::Cancel.into());
+        save_dialog.add_button(&quot;Save&quot;, ResponseType::Ok.into());
+
+        SaveDialog(save_dialog)
+    }
+}
+
+#}</code></pre></pre>
+<a class="header" href="print.html#implementing-the-drop-trait" id="implementing-the-drop-trait"><h2>Implementing the Drop Trait</h2></a>
+<p>Objects within GTK are destroyed with the <strong>destroy()</strong> method. So,
+if we want to destroy our dialogs after we have thrown their handles
+away, we can do this automatically by implementing the <strong>Drop</strong> trait
+on both of the types by hand.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+impl Drop for OpenDialog {
+    fn drop(&amp;mut self) { self.0.destroy(); }
+}
+
+impl Drop for SaveDialog {
+    fn drop(&amp;mut self) { self.0.destroy(); }
+}
+
+#}</code></pre></pre>
+<p>Very stupid simple. We are simply calling the <strong>destroy()</strong> method
+on the inner value of our new types.</p>
+<a class="header" href="print.html#implementing-helpful-methods" id="implementing-helpful-methods"><h2>Implementing Helpful Methods</h2></a>
+<p>The following method can be added to the impl for both types, and they
+simply make it easier to run and get the outputs that we want from the
+dialogs.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub fn run(&amp;self) -&gt; Option&lt;PathBuf&gt; {
+    if self.0.run() == ResponseType::Ok.into() {
+        self.0.get_filename()
+    } else {
+        None
+    }
+}
+
+#}</code></pre></pre>
+<p>Basically, we display/run the dialog, and check the output to determine
+whether or not we received the <strong>Ok</strong> response. If we received the <strong>Ok</strong>
+response, we simply attempt to return the filename that may or may not
+have been selected.</p>
+<a class="header" href="print.html#the-final-code" id="the-final-code"><h2>The Final Code</h2></a>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+use gtk::*;
+use std::path::PathBuf;
+
+/// A wrapped FileChooserDialog that automatically destroys itself upon being dropped.
+pub struct OpenDialog(FileChooserDialog);
+
+/// A wrapped FileChooserDialog that automatically destroys itself upon being dropped.
+pub struct SaveDialog(FileChooserDialog);
+
+impl OpenDialog {
+    pub fn new() -&gt; OpenDialog {
+        // Create a new file chooser dialog for opening a file.
+        let open_dialog = FileChooserDialog::new(
+            Some(&quot;Open&quot;),
+            Some(&amp;Window::new(WindowType::Popup)),
+            FileChooserAction::Open,
+        );
+
+        // Add the cancel and open buttons to that dialog.
+        open_dialog.add_button(&quot;Cancel&quot;, ResponseType::Cancel.into());
+        open_dialog.add_button(&quot;Open&quot;, ResponseType::Ok.into());
+
+        OpenDialog(open_dialog)
+    }
+
+    pub fn run(&amp;self) -&gt; Option&lt;PathBuf&gt; {
+        if self.0.run() == ResponseType::Ok.into() {
+            self.0.get_filename()
+        } else {
+            None
+        }
+    }
+}
+
+impl SaveDialog {
+    pub fn new() -&gt; SaveDialog {
+        // Initializes a new save as dialog, which is embedded within a new popup window.
+        let save_dialog = FileChooserDialog::new(
+            Some(&quot;Save As&quot;),
+            Some(&amp;Window::new(WindowType::Popup)),
+            FileChooserAction::Save,
+        );
+
+        // Add the cancel and save buttons to that dialog.
+        save_dialog.add_button(&quot;Cancel&quot;, ResponseType::Cancel.into());
+        save_dialog.add_button(&quot;Save&quot;, ResponseType::Ok.into());
+
+        SaveDialog(save_dialog)
+    }
+
+    pub fn run(&amp;self) -&gt; Option&lt;PathBuf&gt; {
+        if self.0.run() == ResponseType::Ok.into() {
+            self.0.get_filename()
+        } else {
+            None
+        }
+    }
+}
+
+impl Drop for OpenDialog {
+    fn drop(&amp;mut self) { self.0.destroy(); }
+}
+
+impl Drop for SaveDialog {
+    fn drop(&amp;mut self) { self.0.destroy(); }
+}
+
+#}</code></pre></pre>
+<a class="header" href="print.html#programming-the-ui-2" id="programming-the-ui-2"><h1>Programming the UI</h1></a>
+<a class="header" href="print.html#markdown-to-html" id="markdown-to-html"><h1>Markdown to HTML</h1></a>
+<a class="header" href="print.html#updating-webviews" id="updating-webviews"><h1>Updating WebViews</h1></a>
+<a class="header" href="print.html#binding-keys" id="binding-keys"><h1>Binding Keys</h1></a>
+<a class="header" href="print.html#conclusion--review-2" id="conclusion--review-2"><h1>Conclusion &amp; Review</h1></a>
+<a class="header" href="print.html#mdbook-gui" id="mdbook-gui"><h1>mdBook GUI</h1></a>
+<a class="header" href="print.html#list-boxes-notebooks--stacks" id="list-boxes-notebooks--stacks"><h1>List Boxes, Notebooks, &amp; Stacks</h1></a>
+<a class="header" href="print.html#content-management-system" id="content-management-system"><h1>Content Management System</h1></a>
 
                 </div>
 

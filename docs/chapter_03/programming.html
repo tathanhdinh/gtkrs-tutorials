@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Programming the UI - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Window With A Header Bar</a></li><li><a href="./chapter_02/index.html"><strong>3.</strong> Button Boxer</a></li><li><ul class="section"><li><a href="./chapter_02/objects.html"><strong>3.1.</strong> Boxes, Buttons, &amp; Labels</a></li><li><a href="./chapter_02/state.html"><strong>3.2.</strong> Maintaining External State</a></li><li><a href="./chapter_02/ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02/programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02/review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03/index.html"><strong>4.</strong> HTML Articler</a></li><li><ul class="section"><li><a href="./chapter_03/objects.html"><strong>4.1.</strong> Entries, Panes, Scrolled Windows, &amp; Text Views</a></li><li><a href="./chapter_03/horrorshow.html"><strong>4.2.</strong> Horrorshow HTML Templating</a></li><li><a href="./chapter_03/ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03/programming.html" class="active"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03/review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_04/index.html"><strong>5.</strong> Simple Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_04/objects.html"><strong>5.1.</strong> Source Views, Web Views, &amp; File Dialogs</a></li><li><a href="./chapter_04/mods.html"><strong>5.2.</strong> Setting Up Modules</a></li><li><a href="./chapter_04/ui.html"><strong>5.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_04/file_choosers.html"><strong>5.4.</strong> File Chooser Dialogs</a></li><li><a href="./chapter_04/programming.html"><strong>5.5.</strong> Connecting Events</a></li><li><a href="./chapter_04/markdown_to_html.html"><strong>5.6.</strong> Markdown to HTML</a></li><li><a href="./chapter_04/webviews.html"><strong>5.7.</strong> Updating WebViews</a></li><li><a href="./chapter_04/keys.html"><strong>5.8.</strong> Binding Keys</a></li><li><a href="./chapter_04/review.html"><strong>5.9.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_05/index.html"><strong>6.</strong> Advanced Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_05/objects.html"><strong>6.1.</strong> Menu Buttons, Notebooks, &amp; Stacks</a></li></ul></li><li><a href="./chapter_06/index.html"><strong>7.</strong> Content Management System</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="./chapter_03/programming.html#programming-the-ui" id="programming-the-ui"><h1>Programming the UI</h1></a>
+<p>So, with all the widgets that are going to interact with each other, you might think that this
+part will be a tiny bit difficult to implement. Well, if you think that, you're completely
+wrong, as this will actually be the easiest part of the program to implement! Starting with
+chapter 1's main function as a template, which looks like so:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+    // Initialize GTK before proceeding.
+    if gtk::init().is_err() {
+        eprintln!(&quot;failed to initialize GTK Application&quot;);
+        process::exit(1);
+    }
+
+    // Initialize the UI's initial state
+    let app = App::new();
+
+    // Program your widgets here!
+
+    // Make all the widgets within the UI visible.
+    app.window.show_all();
+
+    // Start the GTK main event loop
+    gtk::main();
+}
+</code></pre></pre>
+<p>We are going to program the <strong>Post button</strong> to take the <strong>title</strong> and <strong>tags</strong> entries, as well
+as the <strong>content</strong> text view's buffer, pass the strings from these widgets directly through
+a horrorshow HTML macro, and write the output into the <strong>right_pane's</strong> text buffer. The code for
+programming the button will look as follows:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+{
+    // Program the post button to take the inputs in the left pane, and update HTML code
+    // within the right pane accordingly. Prepared to increment reference counters...
+    let title = app.content.title.clone();
+    let tags = app.content.tags.clone();
+    let content = app.content.content.clone();
+    let right_pane = app.content.right_pane.clone();
+    app.header.post.connect_clicked(move |_| {
+        let inputs = (title.get_text(), tags.get_text(), get_buffer(&amp;content));
+        if let (Some(title), Some(tags), Some(content)) = inputs {
+            right_pane.set_text(&amp;generate_html(&amp;title, &amp;tags, &amp;content));
+        }
+    });
+}
+
+#}</code></pre></pre>
+<p>Note that obtaining the text from an entry is very straightforward. All it takes is to invoke the
+<strong>get_text()</strong> method, which returns an <strong>Option&lt;String&gt;</strong>. Getting text from a text buffer is
+slightly more difficult, so you will need to use the abstraction that was recommended at the
+beginning of this chapter. This function is written as so:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+/// Obtain the entire text buffer's contents as a string.
+fn get_buffer(buffer: &amp;TextBuffer) -&gt; Option&lt;String&gt; {
+    let start = buffer.get_start_iter();
+    let end = buffer.get_end_iter();
+    buffer.get_text(&amp;start, &amp;end, true)
+}
+
+#}</code></pre></pre>
+<p>You will also notice this interesting pattern in Rust that has majorly simplified things for us
+when obtaining each of the inputs, to collectively check if all inputs have an input before
+attempting to do anything with the inputs. The <strong>if let</strong> syntax in Rust works on more than just
+patterns, but tuples as well, so you may check multiple values within a tuple at the same time,
+just as you would in a <strong>match</strong>.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+let inputs = (title.get_text(), tags.get_text(), get_buffer(&amp;content));
+if let (Some(title), Some(tags), Some(content)) = inputs {
+    right_pane.set_text(&amp;generate_html(&amp;title, &amp;tags, &amp;content));
+}
+
+#}</code></pre></pre>
+<p>Althugh we have yet to define our <strong>generate_html</strong> function, and this will be the final
+component for implementing this application. The simplest way to use the <strong>html!</strong> macro is to
+use it as an argument within the <strong>format!</strong> macro. And so, our function will look as so,
+although you are free to implement the HTML macro however you like.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+/// Generates the minified HTML that will be displayed in the right pane
+fn generate_html(title: &amp;str, tags: &amp;str, content: &amp;str) -&gt; String {
+    format!{
+        &quot;{}&quot;,
+        html!{
+            article {
+                header {
+                    h1 { : &amp;title }
+                    div(class=&quot;tags&quot;) {
+                        @ for tag in tags.split(':') {
+                            div(class=&quot;tag&quot;) { : tag }
+                        }
+                    }
+                }
+                @ for line in content.lines().filter(|x| !x.is_empty()) {
+                    p { : line }
+                }
+            }
+        }
+    }
+}
+
+#}</code></pre></pre>
+<p>The above syntax should be fairly readable. We create a pair of <strong>article</strong> tags, which contain
+a both a pair of <strong>header</strong> tags, and and a <strong>p</strong> paragraph for each non-empty line of input that
+was obtained from the <strong>content</strong> text buffer. Within the <strong>header</strong> tags is a <strong>h1</strong> header that
+is defined to use the title entry as the text within, and a <strong>div</strong> that contains a list of tags,
+delimited by colons.</p>
+<p><img src="images/ch03_complete.png" /></p>
+<p>With all this in place, you should have a fully functioning program that looks like the original
+picture.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="./chapter_03/ui.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="./chapter_03/review.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="./chapter_03/ui.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="./chapter_03/review.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+    
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

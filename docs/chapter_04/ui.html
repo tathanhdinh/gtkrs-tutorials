@@ -1,0 +1,428 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Creating the UI Structure - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Window With A Header Bar</a></li><li><a href="./chapter_02/index.html"><strong>3.</strong> Button Boxer</a></li><li><ul class="section"><li><a href="./chapter_02/objects.html"><strong>3.1.</strong> Boxes, Buttons, &amp; Labels</a></li><li><a href="./chapter_02/state.html"><strong>3.2.</strong> Maintaining External State</a></li><li><a href="./chapter_02/ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02/programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02/review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03/index.html"><strong>4.</strong> HTML Articler</a></li><li><ul class="section"><li><a href="./chapter_03/objects.html"><strong>4.1.</strong> Entries, Panes, Scrolled Windows, &amp; Text Views</a></li><li><a href="./chapter_03/horrorshow.html"><strong>4.2.</strong> Horrorshow HTML Templating</a></li><li><a href="./chapter_03/ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03/programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03/review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_04/index.html"><strong>5.</strong> Simple Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_04/objects.html"><strong>5.1.</strong> Source Views, Web Views, &amp; File Dialogs</a></li><li><a href="./chapter_04/mods.html"><strong>5.2.</strong> Setting Up Modules</a></li><li><a href="./chapter_04/ui.html" class="active"><strong>5.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_04/file_choosers.html"><strong>5.4.</strong> File Chooser Dialogs</a></li><li><a href="./chapter_04/programming.html"><strong>5.5.</strong> Connecting Events</a></li><li><a href="./chapter_04/markdown_to_html.html"><strong>5.6.</strong> Markdown to HTML</a></li><li><a href="./chapter_04/webviews.html"><strong>5.7.</strong> Updating WebViews</a></li><li><a href="./chapter_04/keys.html"><strong>5.8.</strong> Binding Keys</a></li><li><a href="./chapter_04/review.html"><strong>5.9.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_05/index.html"><strong>6.</strong> Advanced Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_05/objects.html"><strong>6.1.</strong> Menu Buttons, Notebooks, &amp; Stacks</a></li></ul></li><li><a href="./chapter_06/index.html"><strong>7.</strong> Content Management System</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="./chapter_04/ui.html#creating-the-ui-structure" id="creating-the-ui-structure"><h1>Creating the UI Structure</h1></a>
+<p><img src="images/ch04_ui_diagram.png" /></p>
+<p>Following the above diagram, we will begin by creating three modules
+within the <strong>ui</strong> module: <strong>app.rs</strong>, <strong>header.rs</strong>, <strong>content.rs</strong>.
+These three files will hold the <strong>App</strong>, <strong>ConnectedApp</strong>, <strong>Header</strong>,
+<strong>Content</strong>, and <strong>Source</strong> structures.</p>
+<a class="header" href="./chapter_04/ui.html#implementing-the-ui-module" id="implementing-the-ui-module"><h2>Implementing the UI Module</h2></a>
+<p>Now that UI-related code is separated into it's own module, it's
+important to declare all of the submodules that this module will
+important, and declare any types and functions that this module
+should re-export.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+mod app;
+mod content;
+mod dialogs;
+mod header;
+pub mod misc;
+pub mod save;
+
+pub use self::app::App;
+pub use self::content::Content;
+pub use self::dialogs::{OpenDialog, SaveDialog};
+pub use self::header::Header;
+
+#}</code></pre></pre>
+<p>As can be seen above, we are going to create the following modules:
+<strong>app.rs</strong>, <strong>content.rs</strong>, <strong>dialogs.rs</strong>, <strong>save.rs</strong>, <strong>header.rs</strong>,
+and <strong>misc.rs</strong>.</p>
+<a class="header" href="./chapter_04/ui.html#implementing-the-app-structure" id="implementing-the-app-structure"><h2>Implementing the App Structure</h2></a>
+<p>This section should be fairly straightforward, as it is essentially
+identical to previous chapters. The one main difference to note
+is that we have moved the initialization of GTK into the beginning
+of the <strong>App</strong> implementation.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+use gtk;
+use gtk::*;
+use super::Header;
+use super::Content;
+
+pub struct App {
+    pub window:  Window,
+    pub header:  Header,
+    pub content: Content,
+}
+
+impl App {
+    pub fn new() -&gt; App {
+        // Initialize GTK before proceeding.
+        if gtk::init().is_err() {
+            eprintln!(&quot;failed to initialize GTK Application&quot;);
+            process::exit(1);
+        }
+
+        // Create a new top level window.
+        let window = Window::new(WindowType::Toplevel);
+        // Create a the headerbar and it's associated content.
+        let header = Header::new();
+        // Create the content container and all of it's widgets.
+        let content = Content::new();
+
+        // Set the headerbar as the title bar widget.
+        window.set_titlebar(&amp;header.container);
+        // Set the title of the window.
+        window.set_title(&quot;Markdown Editor&quot;);
+        // Set the window manager class.
+        window.set_wmclass(&quot;md-editor&quot;, &quot;Markdown Editor&quot;);
+        // The icon the app will display.
+        window.set_default_size(800, 600);
+        Window::set_default_icon_name(&quot;iconname&quot;);
+        // Add the content to the window.
+        window.add(&amp;content.container);
+
+        // Programs what to do when the exit button is used.
+        window.connect_delete_event(move |_, _| {
+            main_quit();
+            Inhibit(false)
+        });
+
+        // Return the application structure.
+        App { window, header, content }
+    }
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_04/ui.html#implementing-the-header-structure" id="implementing-the-header-structure"><h2>Implementing the Header Structure</h2></a>
+<p>This structure will be even easier to implement. We will be implementing
+<strong>Open</strong>, <strong>Save</strong>, and <strong>Save As</strong> buttons within the header bar. We
+shall set their labels with a mnemonic, so that users have the ability
+to hold the <strong>Alt</strong> key, and select the button that they want to click
+by hitting the character that is underlined in the button label.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+use gtk::*;
+
+pub struct Header {
+    pub container: HeaderBar,
+    pub open:      Button,
+    pub save:      Button,
+    pub save_as:   Button,
+}
+
+impl Header {
+    pub fn new() -&gt; Header {
+        // Creates the main header bar container widget.
+        let container = HeaderBar::new();
+
+        // Sets the text to display in the title section of the header bar.
+        container.set_title(&quot;Markdown Editor&quot;);
+        // Enable the window controls within this headerbar.
+        container.set_show_close_button(true);
+
+        let open = Button::new_with_mnemonic(&quot;_Open&quot;);
+        let save = Button::new_with_mnemonic(&quot;_Save&quot;);
+        let save_as = Button::new_with_mnemonic(&quot;Save _As&quot;);
+        container.pack_start(&amp;open);
+        container.pack_end(&amp;save_as);
+        container.pack_end(&amp;save);
+
+        // Returns the header and all of it's state
+        Header { container, open, save, save_as }
+    }
+}
+
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_04/ui.html#implementing-the-content-structure" id="implementing-the-content-structure"><h2>Implementing the Content Structure</h2></a>
+<p>This is where we are going to introduce <strong>GtkWebViews</strong>,
+and <strong>GtkSourceViews</strong>.</p>
+<a class="header" href="./chapter_04/ui.html#creating-a-web-view" id="creating-a-web-view"><h3>Creating a Web View</h3></a>
+<p>Web views are very simple to create. By invoking the following code,
+you will have constructed a web view that you may integrate within
+your UI the same as you do with all other widgets.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Create a the WebView for the preview pane.
+let context = WebContext::get_default().unwrap();
+let preview = WebView::new_with_context(&amp;context);
+
+#}</code></pre></pre>
+<p>These web views come already wrapped with scrolling capabilities,
+so that functionality does not have to implemented.</p>
+<a class="header" href="./chapter_04/ui.html#creating--configuring-source-views" id="creating--configuring-source-views"><h3>Creating &amp; Configuring Source Views</h3></a>
+<p>Source views, on the other hand, are a bit more complex, because
+they will require some additional configuration to get the results
+that you want in your UI. We are going to strive to have the
+following default configuration for our source view:</p>
+<ul>
+<li>Tabs should write four spaces</li>
+<li>The view should show line numbers</li>
+<li>We should use the default monospace font at size 11</li>
+<li>Markdown syntax highlighting</li>
+<li>Attempt to use the Builder theme by default, and fallback to Classic</li>
+</ul>
+<p>First we start by constructing our <strong>Source</strong> structure.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub struct Source {
+    pub container: ScrolledWindow,
+    pub view:      View,
+    pub buff:      Buffer,
+}
+
+impl Source {
+    fn new() -&gt; Source {
+
+    }
+}
+
+#}</code></pre></pre>
+<p>Then we will create our source buffer and view, which is identical to
+how we would do it with a regular text buffer and view. Once created,
+we will wrap the view within a scrolled window.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Create the SourceView for the editor on the left pane.
+let buff = Buffer::new(None);
+let view = View::new_with_buffer(&amp;buff);
+let container = ScrolledWindow::new(None, None);
+container.add(&amp;view);
+
+#}</code></pre></pre>
+<p>Then we set our desired configurations:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+view.set_show_line_numbers(true);
+view.set_monospace(true);
+view.set_insert_spaces_instead_of_tabs(true);
+view.set_indent_width(4);
+
+#}</code></pre></pre>
+<p>We can use the <strong>pango</strong> crate to change the font within the view. Note
+that we needed to explicitly declare from which trait the <strong>override_font</strong>
+method comes from. A future GTK Rust API update may address this issue.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Configures the font to use with our source view, which shall be the default monospace
+// font, at size 11. When overriding the font, we need to explicitly state the trait
+// from where the method is coming from, due to two methods implementing the same method.
+let font = FontDescription::from_string(&quot;monospace 11&quot;);
+WidgetExt::override_font(&amp;view, &amp;font);
+
+#}</code></pre></pre>
+<p>Then we want to enable markdown syntax highlighting by default. Languages
+are obtained from a <strong>LanguageManager</strong>. We will assign the language
+directly to the source buffer, rather than the source view.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Configure markdown syntax highlighting
+if let Some(markdown) = LanguageManager::new().get_language(&quot;markdown&quot;) {
+    buff.set_language(&amp;markdown);
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_04/ui.html#completed-source-code" id="completed-source-code"><h3>Completed Source Code</h3></a>
+<p>Altogether, the source code for this file should be as follows:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+use gtk::*;
+use pango::*;
+use sourceview::*;
+use webkit2gtk::*;
+
+pub struct Content {
+    pub container: Paned,
+    pub source:    Source,
+    pub preview:   WebView,
+}
+
+pub struct Source {
+    pub container: ScrolledWindow,
+    pub view:      View,
+    pub buff:      Buffer,
+}
+
+impl Content {
+    pub fn new() -&gt; Content {
+        // Create the Paned container for the main content
+        let container = Paned::new(Orientation::Horizontal);
+        let source = Source::new();
+
+        // Create a the WebView for the preview pane.
+        let context = WebContext::get_default().unwrap();
+        let preview = WebView::new_with_context(&amp;context);
+
+        // Pack it in
+        container.pack1(&amp;source.container, true, true);
+        container.pack2(&amp;preview, true, true);
+
+        // Ensure that the two panes get half the size of the paned container.
+        source.container.set_size_request(100, -1);
+        preview.set_size_request(100, -1);
+
+        Content { container, source, preview }
+    }
+}
+
+impl Source {
+    pub fn new() -&gt; Source {
+        // Create the SourceView for the editor on the left pane.
+        let buff = Buffer::new(None);
+        let view = View::new_with_buffer(&amp;buff);
+        let container = ScrolledWindow::new(None, None);
+        container.add(&amp;view);
+
+        // Set source view settings
+        view.set_show_line_numbers(true);
+        view.set_monospace(true);
+        view.set_insert_spaces_instead_of_tabs(true);
+        view.set_indent_width(4);
+
+        // Configures the font to use with our source view, which shall be the default monospace
+        // font, at size 11. When overriding the font, we need to explicitly state the trait
+        // from where the method is coming from, due to two methods implementing the same method.
+        let font = FontDescription::from_string(&quot;monospace 11&quot;);
+        WidgetExt::override_font(&amp;view, &amp;font);
+
+        // Configure markdown syntax highlighting
+        if let Some(markdown) = LanguageManager::new().get_language(&quot;markdown&quot;) {
+            buff.set_language(&amp;markdown);
+        }
+
+        // Set the theme of source buffer
+        let manager = StyleSchemeManager::new();
+        if let Some(theme) = manager.get_scheme(&quot;Builder&quot;).or(manager.get_scheme(&quot;Classic&quot;)) {
+            buff.set_style_scheme(&amp;theme);
+        }
+
+        Source { container, buff, view }
+    }
+}
+
+#}</code></pre></pre>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="./chapter_04/mods.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="./chapter_04/file_choosers.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="./chapter_04/mods.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="./chapter_04/file_choosers.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+    
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

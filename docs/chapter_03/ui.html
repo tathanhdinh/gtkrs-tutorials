@@ -1,0 +1,404 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Creating the UI Structure - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Window With A Header Bar</a></li><li><a href="./chapter_02/index.html"><strong>3.</strong> Button Boxer</a></li><li><ul class="section"><li><a href="./chapter_02/objects.html"><strong>3.1.</strong> Boxes, Buttons, &amp; Labels</a></li><li><a href="./chapter_02/state.html"><strong>3.2.</strong> Maintaining External State</a></li><li><a href="./chapter_02/ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02/programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02/review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03/index.html"><strong>4.</strong> HTML Articler</a></li><li><ul class="section"><li><a href="./chapter_03/objects.html"><strong>4.1.</strong> Entries, Panes, Scrolled Windows, &amp; Text Views</a></li><li><a href="./chapter_03/horrorshow.html"><strong>4.2.</strong> Horrorshow HTML Templating</a></li><li><a href="./chapter_03/ui.html" class="active"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03/programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03/review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_04/index.html"><strong>5.</strong> Simple Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_04/objects.html"><strong>5.1.</strong> Source Views, Web Views, &amp; File Dialogs</a></li><li><a href="./chapter_04/mods.html"><strong>5.2.</strong> Setting Up Modules</a></li><li><a href="./chapter_04/ui.html"><strong>5.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_04/file_choosers.html"><strong>5.4.</strong> File Chooser Dialogs</a></li><li><a href="./chapter_04/programming.html"><strong>5.5.</strong> Connecting Events</a></li><li><a href="./chapter_04/markdown_to_html.html"><strong>5.6.</strong> Markdown to HTML</a></li><li><a href="./chapter_04/webviews.html"><strong>5.7.</strong> Updating WebViews</a></li><li><a href="./chapter_04/keys.html"><strong>5.8.</strong> Binding Keys</a></li><li><a href="./chapter_04/review.html"><strong>5.9.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_05/index.html"><strong>6.</strong> Advanced Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_05/objects.html"><strong>6.1.</strong> Menu Buttons, Notebooks, &amp; Stacks</a></li></ul></li><li><a href="./chapter_06/index.html"><strong>7.</strong> Content Management System</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="./chapter_03/ui.html#creating-the-ui-structure" id="creating-the-ui-structure"><h1>Creating the UI Structure</h1></a>
+<p><img src="images/ch03_complete.png" /></p>
+<p>Using the first chapter as a template and expanding upon that, we shall design our UI according
+to the vision of our UI, pictured above. The key widgets to take note of are the <strong>post</strong> button
+in the header bar; and within our content window is a <strong>title</strong> entry, <strong>tags</strong> entry,
+<strong>content</strong> text view, and a <strong>right_pane</strong> text view for displaying the output in HTML. As such,
+our application's UI structure should look as so:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub struct App {
+    pub window: Window,
+    pub header: Header,
+    pub content: Content,
+}
+
+pub struct Header {
+    pub container: HeaderBar,
+    pub post: Button
+}
+
+pub struct Content {
+    pub container: Paned,
+    pub title: Entry,
+    pub tags: Entry,
+    pub content: TextBuffer,
+    pub right_pane: TextBuffer,
+}
+
+#}</code></pre></pre>
+<p>Note that the container for our content will not be a <strong>GtkBox</strong>, but a <strong>GtkPaned</strong>. This will
+enable the user to drag the divider between the panels to resize them as needed. In addition,
+the <strong>content</strong> and <strong>right_pane</strong> fields are stored as <strong>GtkTextBuffers</strong>, instead of
+<strong>GtkTextViews</strong>. This is because we are not going to be programming the views -- just accessing
+the underlying text buffers that are associated with the views.</p>
+<a class="header" href="./chapter_03/ui.html#app-implementation" id="app-implementation"><h2>App Implementation</h2></a>
+<p>Something new that we will do here is to define the default size of the window, as we should
+have a reasonable size for the user to interact with by default, without needing to resize
+the window to get a good look at the contents within. We are also setting the title of this
+application as 'HTML Articler'. Beyond that, this should be very similar for every application
+you develop.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+impl App {
+    fn new() -&gt; App {
+        // Create a new top level window.
+        let window = Window::new(WindowType::Toplevel);
+        // Create a the headerbar and it's associated content.
+        let header = Header::new();
+        // Create the main content.
+        let content = Content::new();
+
+        // Set the headerbar as the title bar widget.
+        window.set_titlebar(&amp;header.container);
+        // Set the title of the window.
+        window.set_title(&quot;HTML Articler&quot;);
+        // Set the window manager class.
+        window.set_wmclass(&quot;html-articler&quot;, &quot;HTML Articler&quot;);
+        // The icon the app will display.
+        Window::set_default_icon_name(&quot;iconname&quot;);
+        // Set the default size of the window.
+        window.set_default_size(800, 600);
+        // Add the content to the window.
+        window.add(&amp;content.container);
+
+        // Programs what to do when the exit button is used.
+        window.connect_delete_event(move |_, _| {
+            main_quit();
+            Inhibit(false)
+        });
+
+        // Return our main application state
+        App { window, header, content }
+    }
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_03/ui.html#header-implementation" id="header-implementation"><h2>Header Implementation</h2></a>
+<p>Our header bar will simply have a button with a &quot;Post&quot; label, which is given a 'suggested-action'
+as a style class, and packed at the end of the bar. The title of the bar should also be set to
+the name of our application.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+impl Header {
+    fn new() -&gt; Header {
+        // Creates the main header bar container widget.
+        let container = HeaderBar::new();
+
+        // Sets the text to display in the title section of the header bar.
+        container.set_title(&quot;HTML Articler&quot;);
+        // Enable the window controls within this headerbar.
+        container.set_show_close_button(true);
+
+        // Create a button that will post the HTML article.
+        let post = Button::new_with_label(&quot;Post&quot;);
+        post.get_style_context().map(|x| x.add_class(&quot;suggested-action&quot;));
+
+        container.pack_end(&amp;post);
+
+        // Returns the header and all of it's state
+        Header { container, post }
+    }
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_03/ui.html#content-implementation" id="content-implementation"><h2>Content Implementation</h2></a>
+<p>This is where we will spend most of our time for this application. First we create a
+<strong>GtkPaned</strong> container that will hold our resizeable left and right panes. Our right pane
+will be a <strong>GtkTextView</strong>, whereas the left pane is a vertical <strong>GtkBox</strong>. Note that we
+are interested in getting direct access to that text view's buffer, so we will also
+initialize that before creating the view. The left pane's box will have a padding of <code>5</code>
+between children, just so that they aren't smushed together.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// The main container will hold a left and right pane. The left pane is for user input,
+// whereas the right pane is for the generated output.
+let container = Paned::new(Orientation::Horizontal);
+let left_pane = Box::new(Orientation::Vertical, 5);
+let right_pane = TextBuffer::new(None);
+let right_pane_view = TextView::new_with_buffer(&amp;right_pane);
+
+#}</code></pre></pre>
+<p>Then comes creating the <strong>title</strong> and <strong>tags</strong> entries, as well as the <strong>content</strong> view that
+we will use to construct the left pane.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// The left pane will consist of a title entry, tags entry, and content text view.
+let title = Entry::new();
+let tags = Entry::new();
+let content = TextBuffer::new(None);
+let content_view = TextView::new_with_buffer(&amp;content);
+
+#}</code></pre></pre>
+<p>Note that we will also be storing a centered label above the <strong>content</strong> text view, followed
+by adding some placeholder text within the entries, and tooltips to display when a mouse is
+hovering over the entries.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// The label that we will display above the content box to describe it.
+let content_label = Label::new(&quot;Content&quot;);
+content_label.set_halign(Align::Center);
+
+// Set placeholders within the entries to hint the user of the contents to enter.
+title.set_placeholder_text(&quot;Insert Title&quot;);
+tags.set_placeholder_text(&quot;Insert Colon-Delimited Tags&quot;);
+
+// Additionally set tooltips on the entries. Note that you may use either text or markup.
+title.set_tooltip_text(&quot;Insert the title of article here&quot;);
+tags.set_tooltip_markup(&quot;&lt;b&gt;tag_one&lt;/b&gt;:&lt;b&gt;tag two&lt;/b&gt;:&lt;b&gt; tag three&lt;/b&gt;&quot;);
+
+#}</code></pre></pre>
+<p>Then ensuring that the right pane's text view is not editable, and both of the text views
+have their text wrapped by words.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// The right pane should disallow editing; and both editors should wrap by word.
+right_pane_view.set_editable(false);
+right_pane_view.set_wrap_mode(WrapMode::Word);
+content_view.set_wrap_mode(WrapMode::Word);
+
+#}</code></pre></pre>
+<p>Now we just need to wrap the text views within some <strong>GtkScrolledWindows</strong> to enable the user
+to scroll through the text, in the event that there is enough text that it cannot be displayed
+all at once within the widget.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Wrap the text views within scrolled windows, so that they can scroll.
+let content_scroller = ScrolledWindow::new(None, None);
+let right_pane_scrolled = ScrolledWindow::new(None, None);
+content_scroller.add(&amp;content_view);
+right_pane_scrolled.add(&amp;right_pane_view);
+
+#}</code></pre></pre>
+<p>And to make our UI look better, we can apply some borders and margins accordingly.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Paddin' Widgets
+left_pane.set_border_width(5);
+right_pane_view.set_left_margin(5);
+right_pane_view.set_right_margin(5);
+right_pane_view.set_top_margin(5);
+right_pane_view.set_bottom_margin(5);
+content_view.set_left_margin(5);
+content_view.set_right_margin(5);
+content_view.set_top_margin(5);
+content_view.set_bottom_margin(5);
+
+#}</code></pre></pre>
+<p>And all that remains is to pack our widgets into their panes and return a <strong>Content</strong> structure.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// First add everything to the left pane box.
+left_pane.pack_start(&amp;title, false, true, 0);
+left_pane.pack_start(&amp;tags, false, true, 0);
+left_pane.pack_start(&amp;content_label, false, false, 0);
+left_pane.pack_start(&amp;content_scroller, true, true, 0);
+
+// Then add the left and right panes into the container
+container.pack1(&amp;left_pane, true, true);
+container.pack2(&amp;right_pane_scrolled, true, true);
+
+Content { container, title, tags, content, right_pane }
+
+#}</code></pre></pre>
+<p>Put it all together, and you should have an implementation that looks as follows:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+impl Content {
+    fn new() -&gt; Content {
+        // The main container will hold a left and right pane. The left pane is for user input,
+        // whereas the right pane is for the generated output.
+        let container = Paned::new(Orientation::Horizontal);
+        let left_pane = Box::new(Orientation::Vertical, 5);
+        let right_pane = TextBuffer::new(None);
+        let right_pane_view = TextView::new_with_buffer(&amp;right_pane);
+
+        // The left pane will consist of a title entry, tags entry, and content text view.
+        let title = Entry::new();
+        let tags = Entry::new();
+        let content = TextBuffer::new(None);
+        let content_view = TextView::new_with_buffer(&amp;content);
+
+        // The label that we will display above the content box to describe it.
+        let content_label = Label::new(&quot;Content&quot;);
+        content_label.set_halign(Align::Center);
+
+        // Set placeholders within the entries to hint the user of the contents to enter.
+        title.set_placeholder_text(&quot;Insert Title&quot;);
+        tags.set_placeholder_text(&quot;Insert Colon-Delimited Tags&quot;);
+
+        // Additionally set tooltips on the entries. Note that you may use either text or markup.
+        title.set_tooltip_text(&quot;Insert the title of article here&quot;);
+        tags.set_tooltip_markup(&quot;&lt;b&gt;tag_one&lt;/b&gt;:&lt;b&gt;tag two&lt;/b&gt;:&lt;b&gt; tag three&lt;/b&gt;&quot;);
+
+        // The right pane should disallow editing; and both editors should wrap by word.
+        right_pane_view.set_editable(false);
+        right_pane_view.set_wrap_mode(WrapMode::Word);
+        content_view.set_wrap_mode(WrapMode::Word);
+
+        // Wrap the text views within scrolled windows, so that they can scroll.
+        let content_scroller = ScrolledWindow::new(None, None);
+        let right_pane_scrolled = ScrolledWindow::new(None, None);
+        content_scroller.add(&amp;content_view);
+        right_pane_scrolled.add(&amp;right_pane_view);
+
+        // Paddin' Widgets
+        left_pane.set_border_width(5);
+        right_pane_view.set_left_margin(5);
+        right_pane_view.set_right_margin(5);
+        right_pane_view.set_top_margin(5);
+        right_pane_view.set_bottom_margin(5);
+        content_view.set_left_margin(5);
+        content_view.set_right_margin(5);
+        content_view.set_top_margin(5);
+        content_view.set_bottom_margin(5);
+
+        // First add everything to the left pane box.
+        left_pane.pack_start(&amp;title, false, true, 0);
+        left_pane.pack_start(&amp;tags, false, true, 0);
+        left_pane.pack_start(&amp;content_label, false, false, 0);
+        left_pane.pack_start(&amp;content_scroller, true, true, 0);
+
+        // Then add the left and right panes into the container
+        container.pack1(&amp;left_pane, true, true);
+        container.pack2(&amp;right_pane_scrolled, true, true);
+
+        Content { container, title, tags, content, right_pane }
+    }
+}
+
+#}</code></pre></pre>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="./chapter_03/horrorshow.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="./chapter_03/programming.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="./chapter_03/horrorshow.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="./chapter_03/programming.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+    
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Setting Up Modules - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Window With A Header Bar</a></li><li><a href="./chapter_02/index.html"><strong>3.</strong> Button Boxer</a></li><li><ul class="section"><li><a href="./chapter_02/objects.html"><strong>3.1.</strong> Boxes, Buttons, &amp; Labels</a></li><li><a href="./chapter_02/state.html"><strong>3.2.</strong> Maintaining External State</a></li><li><a href="./chapter_02/ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02/programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02/review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03/index.html"><strong>4.</strong> HTML Articler</a></li><li><ul class="section"><li><a href="./chapter_03/objects.html"><strong>4.1.</strong> Entries, Panes, Scrolled Windows, &amp; Text Views</a></li><li><a href="./chapter_03/horrorshow.html"><strong>4.2.</strong> Horrorshow HTML Templating</a></li><li><a href="./chapter_03/ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03/programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03/review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_04/index.html"><strong>5.</strong> Simple Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_04/objects.html"><strong>5.1.</strong> Source Views, Web Views, &amp; File Dialogs</a></li><li><a href="./chapter_04/mods.html" class="active"><strong>5.2.</strong> Setting Up Modules</a></li><li><a href="./chapter_04/ui.html"><strong>5.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_04/file_choosers.html"><strong>5.4.</strong> File Chooser Dialogs</a></li><li><a href="./chapter_04/programming.html"><strong>5.5.</strong> Connecting Events</a></li><li><a href="./chapter_04/markdown_to_html.html"><strong>5.6.</strong> Markdown to HTML</a></li><li><a href="./chapter_04/webviews.html"><strong>5.7.</strong> Updating WebViews</a></li><li><a href="./chapter_04/keys.html"><strong>5.8.</strong> Binding Keys</a></li><li><a href="./chapter_04/review.html"><strong>5.9.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_05/index.html"><strong>6.</strong> Advanced Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_05/objects.html"><strong>6.1.</strong> Menu Buttons, Notebooks, &amp; Stacks</a></li></ul></li><li><a href="./chapter_06/index.html"><strong>7.</strong> Content Management System</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="./chapter_04/mods.html#setting-up-modules" id="setting-up-modules"><h1>Setting Up Modules</h1></a>
+<p><img src="images/ch04_mod_diagram.png" /></p>
+<p>With this chapter, we are going to begin to use modules to compartmentalize
+code within manageable files. Following the above diagram, we shall separate
+the GTK-specific code from the rest of the codebase accordingly.</p>
+<ul>
+<li>The <strong>ui</strong> module will contain all of the code relevant to building and
+executing the GTK program.</li>
+<li>The <strong>preview</strong> module will be responsible for generating the HTML from the
+provided Markdown.</li>
+<li>The <strong>state</strong> module will be responsible for holding our custom types that
+will be managing external state within the program.</li>
+</ul>
+<a class="header" href="./chapter_04/mods.html#creating-modules" id="creating-modules"><h2>Creating Modules</h2></a>
+<p><img src="images/ch04_modules.png" /></p>
+<p>The <strong>preview</strong> and <strong>state</strong> modules are relatively simple, and so they
+can simply be individual Rust files: <strong>preview.rs</strong> and <strong>state.rs</strong>. The
+<strong>ui</strong> module will be much more complex, however, and so that module will
+consist of a series of modules on it's own. As a result, it should be a
+<strong>ui</strong> directory where the point of entry into this module will be a
+<strong>mod.rs</strong> file within that directory.</p>
+<a class="header" href="./chapter_04/mods.html#the-mainrs-file" id="the-mainrs-file"><h2>The main.rs File</h2></a>
+<p>Once we have the basic modules set up, we will wire everything together
+to the main point of entry into our program: the <strong>main.rs</strong> file. It
+should look like so to get started.</p>
+<pre><pre class="playpen"><code class="language-rust">extern crate gdk;
+extern crate gtk;
+#[macro_use]
+extern crate horrorshow;
+extern crate pango;
+extern crate pulldown_cmark;
+extern crate sourceview;
+extern crate tiny_keccak;
+extern crate webkit2gtk;
+
+pub mod preview;
+pub mod state;
+pub mod ui;
+
+use ui::App;
+
+fn main() {
+    // Initialize the UI's initial state
+    App::new()
+        // Connect events to the UI
+        .connect_events()
+        // Display the UI and execute the program
+        .then_execute();
+}
+</code></pre></pre>
+<p>You may notice that we have changed things up from the last chapter. In
+this chapter, we are going to use the <strong>Builder</strong> pattern to set up and
+execute our program. This can be a useful pattern to employ that can
+eliminate would-be API logic errors at compile time.</p>
+<p>The <code>App::new()</code> method will create a new <strong>App</strong>, which we will move
+into the <code>connect_events()</code> method, which converts the <strong>App</strong> into a
+<strong>ConnectedApp</strong>, and that type implements <code>then_execute()</code>, which shall
+display the UI and execute the main event loop.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="./chapter_04/objects.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="./chapter_04/ui.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="./chapter_04/objects.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="./chapter_04/ui.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+    
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

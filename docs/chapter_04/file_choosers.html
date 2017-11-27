@@ -1,0 +1,316 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>File Chooser Dialogs - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Window With A Header Bar</a></li><li><a href="./chapter_02/index.html"><strong>3.</strong> Button Boxer</a></li><li><ul class="section"><li><a href="./chapter_02/objects.html"><strong>3.1.</strong> Boxes, Buttons, &amp; Labels</a></li><li><a href="./chapter_02/state.html"><strong>3.2.</strong> Maintaining External State</a></li><li><a href="./chapter_02/ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02/programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02/review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03/index.html"><strong>4.</strong> HTML Articler</a></li><li><ul class="section"><li><a href="./chapter_03/objects.html"><strong>4.1.</strong> Entries, Panes, Scrolled Windows, &amp; Text Views</a></li><li><a href="./chapter_03/horrorshow.html"><strong>4.2.</strong> Horrorshow HTML Templating</a></li><li><a href="./chapter_03/ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03/programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03/review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_04/index.html"><strong>5.</strong> Simple Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_04/objects.html"><strong>5.1.</strong> Source Views, Web Views, &amp; File Dialogs</a></li><li><a href="./chapter_04/mods.html"><strong>5.2.</strong> Setting Up Modules</a></li><li><a href="./chapter_04/ui.html"><strong>5.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_04/file_choosers.html" class="active"><strong>5.4.</strong> File Chooser Dialogs</a></li><li><a href="./chapter_04/programming.html"><strong>5.5.</strong> Connecting Events</a></li><li><a href="./chapter_04/markdown_to_html.html"><strong>5.6.</strong> Markdown to HTML</a></li><li><a href="./chapter_04/webviews.html"><strong>5.7.</strong> Updating WebViews</a></li><li><a href="./chapter_04/keys.html"><strong>5.8.</strong> Binding Keys</a></li><li><a href="./chapter_04/review.html"><strong>5.9.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_05/index.html"><strong>6.</strong> Advanced Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_05/objects.html"><strong>6.1.</strong> Menu Buttons, Notebooks, &amp; Stacks</a></li></ul></li><li><a href="./chapter_06/index.html"><strong>7.</strong> Content Management System</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="./chapter_04/file_choosers.html#file-chooser-dialogs" id="file-chooser-dialogs"><h1>File Chooser Dialogs</h1></a>
+<blockquote>
+<p>Note that this is the dialogs.rs module</p>
+</blockquote>
+<p>The GTK Rust API does not take advantage of the <strong>Drop</strong> trait within
+Rust, which means that when a dialog is spawned, it will continue
+to remain in existence on your screen forever. Thankfully, we can
+address this ourselves by creating wrapper types for
+<strong>GtkFileChooserDialogs</strong> and implementing the <strong>Drop</strong> trait on
+them to destroy the inner dialog upon dropping the type.</p>
+<a class="header" href="./chapter_04/file_choosers.html#creating-an-opendialog" id="creating-an-opendialog"><h2>Creating an OpenDialog</h2></a>
+<p>With this, you will start by simply creating a new tuple type.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub struct OpenDialog(FileChooserDialog);
+
+#}</code></pre></pre>
+<p>And simply implementing the <strong>new()</strong> method on this type to
+create a new inner <strong>FileChooserDialog</strong>.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+impl OpenDialog {
+    pub fn new() -&gt; OpenDialog {
+        // Create a new file chooser dialog for opening a file.
+        let open_dialog = FileChooserDialog::new(
+            Some(&quot;Open&quot;),
+            Some(&amp;Window::new(WindowType::Popup)),
+            FileChooserAction::Open,
+        );
+
+        // Add the cancel and open buttons to that dialog.
+        open_dialog.add_button(&quot;Cancel&quot;, ResponseType::Cancel.into());
+        open_dialog.add_button(&quot;Open&quot;, ResponseType::Ok.into());
+
+        OpenDialog(open_dialog)
+    }
+}
+
+#}</code></pre></pre>
+<p>The gist of a <strong>FileChooserDialog</strong> is to designate the name of
+the dialog, followed by providing a new window of the <strong>Popup</strong>
+variety, and then choosing the corresponding <strong>FileChooserAction</strong>
+that meets the criteria that you are going for. In this case, we
+are creating an <strong>Open</strong> dialog to open a file.</p>
+<p>Once created, you then need to specify the labels for the two
+buttons within the dialog, and map the corresponding
+<strong>ResponseTypes</strong> to those buttons. This is very important for
+knowing whether the user hit <strong>Cancel</strong> or <strong>Ok</strong>.</p>
+<p>Once we are all done, we simply need to wrap the type up in our
+<strong>OpenDialog</strong> type and that's it.</p>
+<a class="header" href="./chapter_04/file_choosers.html#creating-a-savedialog" id="creating-a-savedialog"><h2>Creating a SaveDialog</h2></a>
+<p>The Save dialog is essentially identical.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub struct SaveDialog(FileChooserDialog);
+
+impl SaveDialog {
+    pub fn new() -&gt; SaveDialog {
+        // Initializes a new save as dialog, which is embedded within a new popup window.
+        let save_dialog = FileChooserDialog::new(
+            Some(&quot;Save As&quot;),
+            Some(&amp;Window::new(WindowType::Popup)),
+            FileChooserAction::Save,
+        );
+
+        // Add the cancel and save buttons to that dialog.
+        save_dialog.add_button(&quot;Cancel&quot;, ResponseType::Cancel.into());
+        save_dialog.add_button(&quot;Save&quot;, ResponseType::Ok.into());
+
+        SaveDialog(save_dialog)
+    }
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_04/file_choosers.html#implementing-the-drop-trait" id="implementing-the-drop-trait"><h2>Implementing the Drop Trait</h2></a>
+<p>Objects within GTK are destroyed with the <strong>destroy()</strong> method. So,
+if we want to destroy our dialogs after we have thrown their handles
+away, we can do this automatically by implementing the <strong>Drop</strong> trait
+on both of the types by hand.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+impl Drop for OpenDialog {
+    fn drop(&amp;mut self) { self.0.destroy(); }
+}
+
+impl Drop for SaveDialog {
+    fn drop(&amp;mut self) { self.0.destroy(); }
+}
+
+#}</code></pre></pre>
+<p>Very stupid simple. We are simply calling the <strong>destroy()</strong> method
+on the inner value of our new types.</p>
+<a class="header" href="./chapter_04/file_choosers.html#implementing-helpful-methods" id="implementing-helpful-methods"><h2>Implementing Helpful Methods</h2></a>
+<p>The following method can be added to the impl for both types, and they
+simply make it easier to run and get the outputs that we want from the
+dialogs.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub fn run(&amp;self) -&gt; Option&lt;PathBuf&gt; {
+    if self.0.run() == ResponseType::Ok.into() {
+        self.0.get_filename()
+    } else {
+        None
+    }
+}
+
+#}</code></pre></pre>
+<p>Basically, we display/run the dialog, and check the output to determine
+whether or not we received the <strong>Ok</strong> response. If we received the <strong>Ok</strong>
+response, we simply attempt to return the filename that may or may not
+have been selected.</p>
+<a class="header" href="./chapter_04/file_choosers.html#the-final-code" id="the-final-code"><h2>The Final Code</h2></a>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+use gtk::*;
+use std::path::PathBuf;
+
+/// A wrapped FileChooserDialog that automatically destroys itself upon being dropped.
+pub struct OpenDialog(FileChooserDialog);
+
+/// A wrapped FileChooserDialog that automatically destroys itself upon being dropped.
+pub struct SaveDialog(FileChooserDialog);
+
+impl OpenDialog {
+    pub fn new() -&gt; OpenDialog {
+        // Create a new file chooser dialog for opening a file.
+        let open_dialog = FileChooserDialog::new(
+            Some(&quot;Open&quot;),
+            Some(&amp;Window::new(WindowType::Popup)),
+            FileChooserAction::Open,
+        );
+
+        // Add the cancel and open buttons to that dialog.
+        open_dialog.add_button(&quot;Cancel&quot;, ResponseType::Cancel.into());
+        open_dialog.add_button(&quot;Open&quot;, ResponseType::Ok.into());
+
+        OpenDialog(open_dialog)
+    }
+
+    pub fn run(&amp;self) -&gt; Option&lt;PathBuf&gt; {
+        if self.0.run() == ResponseType::Ok.into() {
+            self.0.get_filename()
+        } else {
+            None
+        }
+    }
+}
+
+impl SaveDialog {
+    pub fn new() -&gt; SaveDialog {
+        // Initializes a new save as dialog, which is embedded within a new popup window.
+        let save_dialog = FileChooserDialog::new(
+            Some(&quot;Save As&quot;),
+            Some(&amp;Window::new(WindowType::Popup)),
+            FileChooserAction::Save,
+        );
+
+        // Add the cancel and save buttons to that dialog.
+        save_dialog.add_button(&quot;Cancel&quot;, ResponseType::Cancel.into());
+        save_dialog.add_button(&quot;Save&quot;, ResponseType::Ok.into());
+
+        SaveDialog(save_dialog)
+    }
+
+    pub fn run(&amp;self) -&gt; Option&lt;PathBuf&gt; {
+        if self.0.run() == ResponseType::Ok.into() {
+            self.0.get_filename()
+        } else {
+            None
+        }
+    }
+}
+
+impl Drop for OpenDialog {
+    fn drop(&amp;mut self) { self.0.destroy(); }
+}
+
+impl Drop for SaveDialog {
+    fn drop(&amp;mut self) { self.0.destroy(); }
+}
+
+#}</code></pre></pre>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="./chapter_04/ui.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="./chapter_04/programming.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="./chapter_04/ui.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="./chapter_04/programming.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+    
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>
