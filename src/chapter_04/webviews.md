@@ -28,7 +28,7 @@ fn editor_changed(
 }
 ```
 
-## Connect Changed
+## connect_changed()
 
 In the above code, you may notice that we are calling utilizing the
 **connect_changed** method from the source buffer to update the preview
@@ -36,18 +36,7 @@ and modify the save button as the buffer is modified.
 
 ## Obtaining Text From a Source Buffer
 
-And if you recall from a previous chapter, we are getting the text within
-a buffer using a useful abstraction:
-
-```rust
-/// Obtains the entire inner string of a given text buffer.
-pub fn get_buffer(buffer: &Buffer) -> Option<String> {
-    let start = buffer.get_start_iter();
-    let end = buffer.get_end_iter();
-    buffer.get_text(&start, &end, true)
-}
-
-```
+Using the **get_buffer()** function from the **misc.rs** module:
 
 ```rust
 if let Some(markdown) = get_buffer(&editor) {
@@ -55,7 +44,7 @@ if let Some(markdown) = get_buffer(&editor) {
 }
 ```
 
-Which obtains the text within the editor
+We can obtain the text within the editor's buffer.
 
 ## Updating the Web View
 
@@ -77,10 +66,7 @@ enabled.
 
 ```rust
 if let Some(ref current_file) = *current_file.read().unwrap() {
-    if current_file.is_same_as(&markdown.as_bytes()) {
-        save_button.set_sensitive(false);
-    } else {
-        save_button.set_sensitive(true);
-    }
+    let has_same_sum = current_file.is_same_as(&markdown.as_bytes());
+    save_button.set_sensitive(!has_same_sum);
 }
 ```
