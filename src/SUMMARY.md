@@ -23,7 +23,6 @@
     - [Connecting Events](./chapter_04/programming.md)
     - [Markdown to HTML](./chapter_04/markdown_to_html.md)
     - [Updating WebViews](./chapter_04/webviews.md)
-    - [Markdown to HTML](./chapter_04/markdown_to_html.md)
     - [File Chooser Dialogs](./chapter_04/file_choosers.md)
     - [Programming the Open Button](./chapter_04/open_button.md)
     - [Programming the Save Buttons](./chapter_04/save_buttons.md)
