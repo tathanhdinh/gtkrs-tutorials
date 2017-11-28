@@ -1300,6 +1300,7 @@ a live preview of our edited Markdown.</p>
 <p>We will use this to act upon certain key presses</p>
 <a class="header" href="print.html#file-chooser-dialogs-source-views--web-views" id="file-chooser-dialogs-source-views--web-views"><h1>File Chooser Dialogs, Source Views, &amp; Web Views</h1></a>
 <a class="header" href="print.html#gtkwebview" id="gtkwebview"><h2>GtkWebView</h2></a>
+<p><img src="images/web_view.png" /></p>
 <p>Provided by the <a href="https://crates.io/crates/webkit2gtk">webkit2gtk crate</a>, this a widget that
 already integrates a scrolled window and simply provides an embedded web engine for rendering
 HTML. The purpose of this widget within this chapter is to provide the rendered HTML
@@ -1318,6 +1319,7 @@ webview.load_html(&amp;html, None);
 
 #}</code></pre></pre>
 <a class="header" href="print.html#gtksourceview" id="gtksourceview"><h2>GtkSourceView</h2></a>
+<p><img src="images/source_view.png" /></p>
 <p>Provided by the <a href="https://crates.io/crates/sourceview">sourceview crate</a>, this is an enhanced
 <strong>GtkTextView</strong> which provides some much-needed code editing improvements. Alas, don't expect
 too much from it, as it's still relatively primitive in it's current state.</p>
@@ -1339,6 +1341,7 @@ WidgetExt::override_font(&amp;source_view, &amp;font);
 
 #}</code></pre></pre>
 <a class="header" href="print.html#gtkfilechooserdialog" id="gtkfilechooserdialog"><h2>GtkFileChooserDialog</h2></a>
+<p><img src="images/file_chooser_dialog.png" /></p>
 <p><strong>GtkFileChooserDialogs</strong> will be used to program the file open/save/save as buttons. They
 simply open a file chooser dialog where you are given the choice to select a file. The GTK
 Rust API is a bit under-developed in this part, as you will see. One particular gotcha is
@@ -1383,6 +1386,7 @@ provided Markdown.</li>
 will be managing external state within the program.</li>
 </ul>
 <a class="header" href="print.html#creating-modules" id="creating-modules"><h2>Creating Modules</h2></a>
+<p><img src="images/ch04_mod_structure.png" /></p>
 <p>The <strong>preview</strong> and <strong>state</strong> modules are relatively simple, and so they
 can simply be individual Rust files: <strong>preview.rs</strong> and <strong>state.rs</strong>. The
 <strong>ui</strong> module will be much more complex, however, and so that module will

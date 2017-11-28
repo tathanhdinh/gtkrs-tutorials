@@ -2,6 +2,8 @@
 
 ## GtkWebView
 
+<img src="images/web_view.png" />
+
 Provided by the [webkit2gtk crate](https://crates.io/crates/webkit2gtk), this a widget that
 already integrates a scrolled window and simply provides an embedded web engine for rendering
 HTML. The purpose of this widget within this chapter is to provide the rendered HTML
@@ -20,6 +22,8 @@ webview.load_html(&html, None);
 ```
 
 ## GtkSourceView
+
+<img src="images/source_view.png" />
 
 Provided by the [sourceview crate](https://crates.io/crates/sourceview), this is an enhanced
 **GtkTextView** which provides some much-needed code editing improvements. Alas, don't expect
@@ -42,6 +46,8 @@ WidgetExt::override_font(&source_view, &font);
 ```
 
 ## GtkFileChooserDialog
+
+<img src="images/file_chooser_dialog.png" />
 
 **GtkFileChooserDialogs** will be used to program the file open/save/save as buttons. They
 simply open a file chooser dialog where you are given the choice to select a file. The GTK
