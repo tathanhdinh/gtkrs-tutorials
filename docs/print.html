@@ -1464,7 +1464,7 @@ pub fn get_buffer(buffer: &amp;Buffer) -&gt; Option&lt;String&gt; {
 within the <strong>ui</strong> module: <strong>app.rs</strong>, <strong>header.rs</strong>, <strong>content.rs</strong>.
 These three files will hold the <strong>App</strong>, <strong>ConnectedApp</strong>, <strong>Header</strong>,
 <strong>Content</strong>, and <strong>Source</strong> structures.</p>
-<a class="header" href="print.html#implementing-the-ui-module" id="implementing-the-ui-module"><h2>Implementing the UI Module</h2></a>
+<a class="header" href="print.html#implementing-the-ui-module-uimodrs" id="implementing-the-ui-module-uimodrs"><h2>Implementing the UI Module (ui/mod.rs)</h2></a>
 <p>Now that UI-related code is separated into it's own module, it's
 important to declare all of the submodules that this module will
 important, and declare any types and functions that this module
@@ -1487,7 +1487,7 @@ pub use self::header::Header;
 <p>As can be seen above, we are going to create the following modules:
 <strong>app.rs</strong>, <strong>content.rs</strong>, <strong>dialogs.rs</strong>, <strong>save.rs</strong>, <strong>header.rs</strong>,
 and <strong>misc.rs</strong>.</p>
-<a class="header" href="print.html#implementing-the-app-structure" id="implementing-the-app-structure"><h2>Implementing the App Structure</h2></a>
+<a class="header" href="print.html#implementing-the-app-structure-uiapprs" id="implementing-the-app-structure-uiapprs"><h2>Implementing the App Structure (ui/app.rs)</h2></a>
 <p>This section should be fairly straightforward, as it is essentially
 identical to previous chapters. The one main difference to note
 is that we have moved the initialization of GTK into the beginning
@@ -1544,7 +1544,7 @@ impl App {
 }
 
 #}</code></pre></pre>
-<a class="header" href="print.html#implementing-the-header-structure" id="implementing-the-header-structure"><h2>Implementing the Header Structure</h2></a>
+<a class="header" href="print.html#implementing-the-header-structure-uiheaderrs" id="implementing-the-header-structure-uiheaderrs"><h2>Implementing the Header Structure (ui/header.rs)</h2></a>
 <p>This structure will be even easier to implement. We will be implementing
 <strong>Open</strong>, <strong>Save</strong>, and <strong>Save As</strong> buttons within the header bar. We
 shall set their labels with a mnemonic, so that users have the ability
@@ -1585,7 +1585,7 @@ impl Header {
 
 
 #}</code></pre></pre>
-<a class="header" href="print.html#implementing-the-content-structure" id="implementing-the-content-structure"><h2>Implementing the Content Structure</h2></a>
+<a class="header" href="print.html#implementing-the-content-structure-uicontentrs" id="implementing-the-content-structure-uicontentrs"><h2>Implementing the Content Structure (ui/content.rs)</h2></a>
 <p>This is where we are going to introduce <strong>GtkWebViews</strong>,
 and <strong>GtkSourceViews</strong>.</p>
 <a class="header" href="print.html#creating-a-web-view" id="creating-a-web-view"><h3>Creating a Web View</h3></a>

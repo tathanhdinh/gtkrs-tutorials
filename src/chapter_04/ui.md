@@ -7,7 +7,7 @@ within the **ui** module: **app.rs**, **header.rs**, **content.rs**.
 These three files will hold the **App**, **ConnectedApp**, **Header**,
 **Content**, and **Source** structures.
 
-## Implementing the UI Module
+## Implementing the UI Module (ui/mod.rs)
 
 Now that UI-related code is separated into it's own module, it's
 important to declare all of the submodules that this module will
@@ -32,7 +32,7 @@ As can be seen above, we are going to create the following modules:
 **app.rs**, **content.rs**, **dialogs.rs**, **save.rs**, **header.rs**,
 and **misc.rs**. 
 
-## Implementing the App Structure
+## Implementing the App Structure (ui/app.rs)
 
 This section should be fairly straightforward, as it is essentially
 identical to previous chapters. The one main difference to note
@@ -90,7 +90,7 @@ impl App {
 }
 ```
 
-## Implementing the Header Structure
+## Implementing the Header Structure (ui/header.rs)
 
 
 This structure will be even easier to implement. We will be implementing
@@ -134,7 +134,7 @@ impl Header {
 ```
 
 
-## Implementing the Content Structure
+## Implementing the Content Structure (ui/content.rs)
 
 This is where we are going to introduce **GtkWebViews**,
 and **GtkSourceViews**. 
