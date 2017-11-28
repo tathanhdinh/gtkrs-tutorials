@@ -2,6 +2,8 @@
 
 <img src="images/ch03_complete.png" />
 
+> The source code for this chapter can be found [here](https://github.com/mmstick/gtkrs-tutorials/tree/master/demos/chapter_03).
+
 In this chapter, you will begin to write useful software that takes advantage of text entries
 and text views, to allow the user to enter data within various input fields, and to generate
 an output from those inputs after clicking a button. In addition, you will also be exposed

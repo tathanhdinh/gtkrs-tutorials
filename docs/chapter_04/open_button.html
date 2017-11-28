@@ -1,0 +1,279 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Programming Open Button - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Window With A Header Bar</a></li><li><a href="./chapter_02/index.html"><strong>3.</strong> Button Boxer</a></li><li><ul class="section"><li><a href="./chapter_02/objects.html"><strong>3.1.</strong> Boxes, Buttons, &amp; Labels</a></li><li><a href="./chapter_02/state.html"><strong>3.2.</strong> Maintaining External State</a></li><li><a href="./chapter_02/ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02/programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02/review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03/index.html"><strong>4.</strong> HTML Articler</a></li><li><ul class="section"><li><a href="./chapter_03/objects.html"><strong>4.1.</strong> Entries, Panes, Scrolled Windows, &amp; Text Views</a></li><li><a href="./chapter_03/horrorshow.html"><strong>4.2.</strong> Horrorshow HTML Templating</a></li><li><a href="./chapter_03/ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03/programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03/review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_04/index.html"><strong>5.</strong> Simple Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_04/objects.html"><strong>5.1.</strong> Source Views, Web Views, &amp; File Dialogs</a></li><li><a href="./chapter_04/mods.html"><strong>5.2.</strong> Setting Up Modules</a></li><li><a href="./chapter_04/misc.html"><strong>5.3.</strong> The ui/misc.rs Module</a></li><li><a href="./chapter_04/ui.html"><strong>5.4.</strong> Creating the UI Structure</a></li><li><a href="./chapter_04/state.html"><strong>5.5.</strong> Maintaining External State</a></li><li><a href="./chapter_04/programming.html"><strong>5.6.</strong> Connecting Events</a></li><li><a href="./chapter_04/markdown_to_html.html"><strong>5.7.</strong> Markdown to HTML</a></li><li><a href="./chapter_04/webviews.html"><strong>5.8.</strong> Updating WebViews</a></li><li><a href="./chapter_04/markdown_to_html.html"><strong>5.9.</strong> Markdown to HTML</a></li><li><a href="./chapter_04/file_choosers.html"><strong>5.10.</strong> File Chooser Dialogs</a></li><li><a href="./chapter_04/open_button.html" class="active"><strong>5.11.</strong> Programming Open Button</a></li><li><a href="./chapter_04/save_buttons.html"><strong>5.12.</strong> Programming the Save Buttons</a></li><li><a href="./chapter_04/keys.html"><strong>5.13.</strong> Binding Keys</a></li><li><a href="./chapter_04/review.html"><strong>5.14.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_05/index.html"><strong>6.</strong> Advanced Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_05/objects.html"><strong>6.1.</strong> Menu Buttons, Notebooks, &amp; Stacks</a></li></ul></li><li><a href="./chapter_06/index.html"><strong>7.</strong> Content Management System</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="./chapter_04/open_button.html#programming-the-open-button" id="programming-the-open-button"><h1>Programming the Open Button</h1></a>
+<p>Now it is time to use those dialogs to program the <strong>Open</strong>, <strong>Save</strong>, and
+<strong>Save As</strong> buttons in our UI. We shall start by first implementing the
+<strong>Open</strong> button by creating a new method called <strong>open_file()</strong>, which we
+shall integrate within our <strong>connect_events()</strong> method.</p>
+<a class="header" href="./chapter_04/open_button.html#open-button" id="open-button"><h2>Open Button</h2></a>
+<p>The <strong>open_file()</strong> button will obtain access to our <strong>current_file</strong>
+entity, which will be updated upon successfully opening the selected
+file.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub fn connect_events(self) -&gt; ConnectedApp {
+    // External state to share across events.
+    let current_file = Arc::new(RwLock::new(None));
+
+    // Connect all of the events that this UI will act upon.
+    self.editor_changed(current_file.clone(), &amp;self.header.save.clone());
+    self.open_file(current_file.clone());
+
+    // Wrap the `App` within `ConnectedApp` to enable the developer to execute the program.
+    ConnectedApp(self)
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_04/open_button.html#connect_clicked" id="connect_clicked"><h3>connect_clicked()</h3></a>
+<p>Now, the <strong>open_file</strong> method will simply be grabbing references to the editor's
+source buffer, to write the opened file's data into the buffer; then grabbing a
+reference to the web view so that we can update it after opening the file; a
+reference to the header bar so that we can update the title and subtitle; and
+finally the <strong>Open</strong> button itself, so that we can map the <strong>connect_clicked()</strong>
+event to it.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+fn open_file(&amp;self, current_file: Arc&lt;RwLock&lt;Option&lt;ActiveMetadata&gt;&gt;&gt;) {
+    let editor = self.content.source.buff.clone();
+    let preview = self.content.preview.clone();
+    let headerbar = self.header.container.clone();
+    self.header.open.connect_clicked(move |_| {
+        // Program the button here
+    });
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_04/open_button.html#creating-an-opendialog" id="creating-an-opendialog"><h3>Creating an OpenDialog</h3></a>
+<p>Within <strong>connect_clicked()</strong>, we shall start by creating a new <strong>OpenDialog</strong>.
+When opening this dialog, we are to attempt to pass in the <strong>current_file</strong>'s
+parent directory, if it exists, so that the open file dialog uses that
+directory in the file search view by default.</p>
+<blockquote>
+<p>Note that I am using <strong>if let Some(ref path)</strong> rather than a <strong>map</strong>
+here due to borrowing concerns -- if you can't get a map to borrow correctly,
+using a <strong>match</strong> or <strong>if let</strong> usually does the trick.</p>
+</blockquote>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Create a new open file dialog using the current file's parent
+// directory as the preferred directory, if it's set.
+let open_dialog = OpenDialog::new({
+    let lock = current_file.read().unwrap();
+    if let Some(ref path) = *lock {
+        path.get_dir()
+    } else {
+        None
+    }
+});
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_04/open_button.html#running-the-dialog" id="running-the-dialog"><h3>Running the Dialog</h3></a>
+<p>Once we have our <strong>open_dialog</strong> variable, it's then just a matter of running
+the dialog, grabbing the selected file path, and then handling that file
+accordingly: read the file into the source buffer, update the web view,
+and then update the title and subtitle.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Runs the dialog, and opens the file if a file was selected.
+if let Some(new_file) = open_dialog.run() {
+    if let Ok(mut file) = File::open(&amp;new_file) {
+        // Read the file's contents into an in-memory buffer
+        let mut contents = String::new();
+        let _ = file.read_to_string(&amp;mut contents);
+
+        // Update the title and subtitle
+        set_title(&amp;headerbar, &amp;new_file);
+        if let Some(parent) = new_file.parent() {
+            let subtitle: &amp;str = &amp;parent.to_string_lossy();
+            headerbar.set_subtitle(subtitle);
+        }
+
+        // Set the shared file path as this file.
+        *current_file.write().unwrap() =
+            Some(ActiveMetadata::new(new_file, &amp;contents.as_bytes()));
+
+        // Update the editor &amp; preview
+        editor.set_text(&amp;contents);
+        preview.load_html(&amp;render(&amp;contents), None);
+    }
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_04/open_button.html#the-completed-code" id="the-completed-code"><h3>The Completed Code</h3></a>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+fn open_file(&amp;self, current_file: Arc&lt;RwLock&lt;Option&lt;ActiveMetadata&gt;&gt;&gt;) {
+    let editor = self.content.source.buff.clone();
+    let preview = self.content.preview.clone();
+    let headerbar = self.header.container.clone();
+    self.header.open.connect_clicked(move |_| {
+        // Create a new open file dialog using the current file's parent
+        // directory as the preferred directory, if it's set.
+        let open_dialog = OpenDialog::new({
+            let lock = current_file.read().unwrap();
+            if let Some(ref path) = *lock {
+                path.get_dir()
+            } else {
+                None
+            }
+        });
+
+        // Runs the dialog, and opens the file if a file was selected.
+        if let Some(new_file) = open_dialog.run() {
+            if let Ok(mut file) = File::open(&amp;new_file) {
+                // Read the file's contents into an in-memory buffer
+                let mut contents = String::new();
+                let _ = file.read_to_string(&amp;mut contents);
+
+                // Update the title and subtitle
+                set_title(&amp;headerbar, &amp;new_file);
+                if let Some(parent) = new_file.parent() {
+                    let subtitle: &amp;str = &amp;parent.to_string_lossy();
+                    headerbar.set_subtitle(subtitle);
+                }
+
+                // Set the shared file path as this file.
+                *current_file.write().unwrap() =
+                    Some(ActiveMetadata::new(new_file, &amp;contents.as_bytes()));
+
+                // Update the editor &amp; preview
+                editor.set_text(&amp;contents);
+                preview.load_html(&amp;render(&amp;contents), None);
+            }
+        }
+    });
+}
+
+#}</code></pre></pre>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="./chapter_04/file_choosers.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="./chapter_04/save_buttons.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="./chapter_04/file_choosers.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="./chapter_04/save_buttons.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+    
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

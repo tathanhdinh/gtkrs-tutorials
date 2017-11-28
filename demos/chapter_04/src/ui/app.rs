@@ -75,17 +75,17 @@ impl App {
         // Keep track of whether we are fullscreened or not.
         let fullscreen = Arc::new(AtomicBool::new(false));
 
-        // Connect all of the events that this UI will act upon.
-        self.editor_changed(current_file.clone(), &self.header.save.clone());
-        self.open_file(current_file.clone());
-        self.save_button(
-            &self.header.save.clone(),
-            &self.header.save.clone(),
-            current_file.clone(),
-            false,
-        );
-        self.save_button(&self.header.save, &self.header.save_as, current_file.clone(), true);
-        self.key_events(current_file, fullscreen);
+        {
+            let save = &self.header.save;
+            let save_as = &self.header.save_as;
+
+            // Connect all of the events that this UI will act upon.
+            self.editor_changed(current_file.clone(), &save.clone());
+            self.open_file(current_file.clone());
+            self.save_event(&save.clone(), &save.clone(), current_file.clone(), false);
+            self.save_event(&save, &save_as, current_file.clone(), true);
+            self.key_events(current_file, fullscreen);
+        }
 
         // Wrap the `App` within `ConnectedApp` to enable the developer to execute the program.
         ConnectedApp(self)
@@ -128,6 +128,8 @@ impl App {
         let preview = self.content.preview.clone();
         let headerbar = self.header.container.clone();
         self.header.open.connect_clicked(move |_| {
+            // Create a new open file dialog using the current file's parent
+            // directory as the preferred directory, if it's set.
             let open_dialog = OpenDialog::new({
                 let lock = current_file.read().unwrap();
                 if let Some(ref path) = *lock {
@@ -164,7 +166,7 @@ impl App {
     }
 
     // Utilized for programming the "Save" and "Save As" buttons.
-    fn save_button(
+    fn save_event(
         &self,
         save_button: &Button,
         actual_button: &Button,

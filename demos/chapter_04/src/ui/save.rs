@@ -25,9 +25,9 @@ pub fn save(
         // current path. Otherwise, we will save the editor's text to the
         // current path, if there is a current path.
         let result = if save_as {
-            _save(None, text.as_bytes())
+            write_data(None, text.as_bytes())
         } else {
-            _save(current_file.read().unwrap().as_ref(), text.as_bytes())
+            write_data(current_file.read().unwrap().as_ref(), text.as_bytes())
         };
 
         // Now we are to match the result of the save function's output. We should
@@ -61,26 +61,22 @@ pub fn save(
 /// run to obtain the required path from the user. In the event that the dialog has to run to
 /// obtain a file path, this function will return **Ok(Some(path))**, otherwise **Ok(None)**.
 /// An **Err** value indicates an I/O-related error occurred when trying to save the file.
-fn _save(path: Option<&ActiveMetadata>, data: &[u8]) -> io::Result<SaveAction> {
-    match path {
-        Some(path) => {
-            // Save the given data to the given file, truncating the file beforehand.
-            let mut file =
-                OpenOptions::new().create(true).write(true).truncate(true).open(path.get_path())?;
-            file.write_all(&data)?;
-        }
-        None => {
-            let save_dialog = SaveDialog::new(None);
-            if let Some(new_path) = save_dialog.run() {
-                let mut file =
-                    OpenOptions::new().create(true).write(true).truncate(false).open(&new_path)?;
-                file.write_all(data)?;
-                return Ok(SaveAction::New(ActiveMetadata::new(new_path, data)));
-            } else {
-                return Ok(SaveAction::Canceled);
-            }
-        }
+fn write_data(path: Option<&ActiveMetadata>, data: &[u8]) -> io::Result<SaveAction> {
+    if let Some(path) = path {
+        // Save the given data to the given file, truncating the file beforehand.
+        let mut file =
+            OpenOptions::new().create(true).write(true).truncate(true).open(path.get_path())?;
+        file.write_all(&data)?;
+        return Ok(SaveAction::Saved);
     }
-
-    Ok(SaveAction::Saved)
+    
+    let save_dialog = SaveDialog::new(None);
+    if let Some(new_path) = save_dialog.run() {
+        let mut file =
+            OpenOptions::new().create(true).write(true).truncate(false).open(&new_path)?;
+        file.write_all(data)?;
+        Ok(SaveAction::New(ActiveMetadata::new(new_path, data)))
+    } else {
+        Ok(SaveAction::Canceled)
+    }
 }

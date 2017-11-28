@@ -1,0 +1,321 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Programming the Save Buttons - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Window With A Header Bar</a></li><li><a href="./chapter_02/index.html"><strong>3.</strong> Button Boxer</a></li><li><ul class="section"><li><a href="./chapter_02/objects.html"><strong>3.1.</strong> Boxes, Buttons, &amp; Labels</a></li><li><a href="./chapter_02/state.html"><strong>3.2.</strong> Maintaining External State</a></li><li><a href="./chapter_02/ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02/programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02/review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03/index.html"><strong>4.</strong> HTML Articler</a></li><li><ul class="section"><li><a href="./chapter_03/objects.html"><strong>4.1.</strong> Entries, Panes, Scrolled Windows, &amp; Text Views</a></li><li><a href="./chapter_03/horrorshow.html"><strong>4.2.</strong> Horrorshow HTML Templating</a></li><li><a href="./chapter_03/ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03/programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03/review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_04/index.html"><strong>5.</strong> Simple Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_04/objects.html"><strong>5.1.</strong> Source Views, Web Views, &amp; File Dialogs</a></li><li><a href="./chapter_04/mods.html"><strong>5.2.</strong> Setting Up Modules</a></li><li><a href="./chapter_04/misc.html"><strong>5.3.</strong> The ui/misc.rs Module</a></li><li><a href="./chapter_04/ui.html"><strong>5.4.</strong> Creating the UI Structure</a></li><li><a href="./chapter_04/state.html"><strong>5.5.</strong> Maintaining External State</a></li><li><a href="./chapter_04/programming.html"><strong>5.6.</strong> Connecting Events</a></li><li><a href="./chapter_04/markdown_to_html.html"><strong>5.7.</strong> Markdown to HTML</a></li><li><a href="./chapter_04/webviews.html"><strong>5.8.</strong> Updating WebViews</a></li><li><a href="./chapter_04/markdown_to_html.html"><strong>5.9.</strong> Markdown to HTML</a></li><li><a href="./chapter_04/file_choosers.html"><strong>5.10.</strong> File Chooser Dialogs</a></li><li><a href="./chapter_04/open_button.html"><strong>5.11.</strong> Programming Open Button</a></li><li><a href="./chapter_04/save_buttons.html" class="active"><strong>5.12.</strong> Programming the Save Buttons</a></li><li><a href="./chapter_04/keys.html"><strong>5.13.</strong> Binding Keys</a></li><li><a href="./chapter_04/review.html"><strong>5.14.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_05/index.html"><strong>6.</strong> Advanced Common Mark Editor</a></li><li><ul class="section"><li><a href="./chapter_05/objects.html"><strong>6.1.</strong> Menu Buttons, Notebooks, &amp; Stacks</a></li></ul></li><li><a href="./chapter_06/index.html"><strong>7.</strong> Content Management System</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="./chapter_04/save_buttons.html#programming-the-save-buttons" id="programming-the-save-buttons"><h1>Programming the Save Buttons</h1></a>
+<p>The <strong>Save</strong> and <strong>Save As</strong> buttons are a bit more complicated, in part due to
+the need to set the sensitivity of the <strong>Save</strong> button over time, and that the
+<strong>Save</strong> button should not open a dialog when there is an active file, but
+immediately save that file to the disk.</p>
+<a class="header" href="./chapter_04/save_buttons.html#appsave_event" id="appsave_event"><h2>App::save_event()</h2></a>
+<p>We shall do something a bit different with the <strong>Save</strong> and <strong>Save As</strong> buttons.
+We will declare a <strong>App::save_event()</strong> method we shall integrate within the
+<strong>App::connect_events()</strong> method, but we will leave the implementation details
+to a <strong>save()</strong> function within the <strong>save.rs</strong> module.</p>
+<p>The key parameters that we need for the two dialogs is <strong>save_button</strong> that we
+are going to program, the actual <strong>Save</strong> button which is named
+<strong>actual_button</strong>, access to the current file's <strong>ActiveMetadata</strong>, and an
+indication of whether the provided <strong>save_button</strong> is a <strong>Save As</strong> button
+or not.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Utilized for programming the &quot;Save&quot; and &quot;Save As&quot; buttons.
+fn save_event(
+    &amp;self,
+    save_button: &amp;Button,
+    actual_button: &amp;Button,
+    current_file: Arc&lt;RwLock&lt;Option&lt;ActiveMetadata&gt;&gt;&gt;,
+    save_as: bool,
+) {
+    let editor = self.content.source.buff.clone();
+    let headerbar = self.header.container.clone();
+    let save_button = save_button.clone();
+    actual_button.connect_clicked(
+        move |_| save(&amp;editor, &amp;headerbar, &amp;save_button, &amp;current_file, save_as),
+    );
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_04/save_buttons.html#updated-appconnect_event" id="updated-appconnect_event"><h2>Updated App::connect_event()</h2></a>
+<p>In this next step, the <strong>App::connect_event()</strong> method should be written as so,
+where we shall see that we have added two new method invocations to
+<strong>App::save_event()</strong>. The first invocation will program the <strong>Save</strong> button,
+whereas the second invocation will program the <strong>Save As</strong> button.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+/// Creates external state, and maps all of the UI functionality to the UI.
+pub fn connect_events(self) -&gt; ConnectedApp {
+    // External state to share across events.
+    let current_file = Arc::new(RwLock::new(None));
+    // Keep track of whether we are fullscreened or not.
+    let fullscreen = Arc::new(AtomicBool::new(false));
+
+    {
+        let save = &amp;self.header.save;
+        let save_as = &amp;self.header.save_as;
+
+        // Connect all of the events that this UI will act upon.
+        self.editor_changed(current_file.clone(), &amp;save.clone());
+        self.open_file(current_file.clone());
+        self.save_event(&amp;save.clone(), &amp;save.clone(), current_file.clone(), false);
+        self.save_event(&amp;save, &amp;save_as, current_file.clone(), true);
+    }
+
+    // Wrap the `App` within `ConnectedApp` to enable the developer to execute the program.
+    ConnectedApp(self)
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_04/save_buttons.html#implementing-the-savers-module" id="implementing-the-savers-module"><h2>Implementing the save.rs Module</h2></a>
+<p>First we will start with the imports that this module is going to require:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+use super::SaveDialog;
+use super::misc::*;
+use gtk::*;
+use sourceview::*;
+use state::ActiveMetadata;
+use std::fs::OpenOptions;
+use std::io::{self, Write};
+use std::sync::RwLock;
+
+#}</code></pre></pre>
+<p>Then we are going to want to know whether an action saved a new file, overwrote
+the active file, or the save action was cancelled, and so we are going to create
+an enum to make that distinction:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub enum SaveAction {
+    New(ActiveMetadata),
+    Saved,
+    Canceled,
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_04/save_buttons.html#writing-data--getting-a-saveaction" id="writing-data--getting-a-saveaction"><h2>Writing Data &amp; Getting a SaveAction</h2></a>
+<p>The <strong>write_data</strong> private function will be used to write the given source
+buffer's <strong>data</strong> to a file, and report back with the result of the save
+action. If this was the <strong>Save</strong> button and there exists a pre-existing
+<strong>ActiveMetadata</strong>, then this will merely write the data to the existing
+file and return an <strong>Ok(SaveAction::Saved)</strong>.</p>
+<p>Otherwise, if this was the <strong>Save As</strong> button that was clicked, or the <strong>Save</strong>
+button was clicked when there wasn't an active metadata stored, then a
+<strong>SaveDialog</strong> will be spawned to obtain the new file and return an
+<strong>Ok(SaveAction::New(ActiveMetadata))</strong>. Unless, of course, the user
+happened to cancel dialog, in which case we should return an
+<strong>Ok(SaveAction::Canceled)</strong>.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+/// Saves the given data to the file path supplied. If the path is **None**, a save dialog will
+/// run to obtain the required path from the user. In the event that the dialog has to run to
+/// obtain a file path, this function will return **Ok(Some(path))**, otherwise **Ok(None)**.
+/// An **Err** value indicates an I/O-related error occurred when trying to save the file.
+fn write_data(path: Option&lt;&amp;ActiveMetadata&gt;, data: &amp;[u8]) -&gt; io::Result&lt;SaveAction&gt; {
+    if let Some(path) = path {
+        // Save the given data to the given file, truncating the file beforehand.
+        let mut file =
+            OpenOptions::new().create(true).write(true).truncate(true).open(path.get_path())?;
+        file.write_all(&amp;data)?;
+        return Ok(SaveAction::Saved);
+    }
+    
+    let save_dialog = SaveDialog::new(None);
+    if let Some(new_path) = save_dialog.run() {
+        let mut file =
+            OpenOptions::new().create(true).write(true).truncate(false).open(&amp;new_path)?;
+        file.write_all(data)?;
+        Ok(SaveAction::New(ActiveMetadata::new(new_path, data)))
+    } else {
+        Ok(SaveAction::Canceled)
+    }
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_04/save_buttons.html#writing-the-public-save-function" id="writing-the-public-save-function"><h3>Writing the Public save() Function</h3></a>
+<p>Finally, we can get on to writing the public <strong>save()</strong> function within this
+module. The first step will naturally be to obtain the text within the source
+buffer for writing. Then we shall conditionally provide the current file's
+metadata depending on whether this is the <strong>Save As</strong> button, or the <strong>Save</strong>
+button. Finally, we will act upon the returned <strong>SaveAction</strong>, where a <strong>New</strong>
+variant will provide the new metadata that we will store as the currently
+active metadata, and to update the title and subtitle accordingly; and the
+<strong>Saved</strong> action will signal that we need to get the sum for the text that
+was written to the disk, and update the currently file's sum to reflect the
+new state of the file.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub fn save(
+    editor: &amp;Buffer,
+    headerbar: &amp;HeaderBar,
+    save: &amp;Button,
+    current_file: &amp;RwLock&lt;Option&lt;ActiveMetadata&gt;&gt;,
+    save_as: bool,
+) {
+    if let Some(text) = get_buffer(editor) {
+        // If we are programming the &quot;Save As&quot; button then we will not use the
+        // current path. Otherwise, we will save the editor's text to the
+        // current path, if there is a current path.
+        let result = if save_as {
+            write_data(None, text.as_bytes())
+        } else {
+            write_data(current_file.read().unwrap().as_ref(), text.as_bytes())
+        };
+
+        // Now we are to match the result of the save function's output. We should
+        // only act upon a return that returns an **Ok(Some(ActiveMetadata))**, setting
+        // the title of the header bar, and the current file to the new path that
+        // we have received.
+        match result {
+            Ok(SaveAction::New(file)) =&gt; {
+                // Update the title and subtitle
+                set_title(&amp;headerbar, file.get_path());
+                if let Some(parent) = file.get_dir() {
+                    let subtitle: &amp;str = &amp;parent.to_string_lossy();
+                    headerbar.set_subtitle(subtitle);
+                }
+                let mut current_file = current_file.write().unwrap();
+                *current_file = Some(file);
+                save.set_sensitive(false);
+            }
+            Ok(SaveAction::Saved) =&gt; {
+                if let Some(ref mut current_file) = *current_file.write().unwrap() {
+                    current_file.set_sum(&amp;text.as_bytes());
+                    save.set_sensitive(false);
+                }
+            }
+            _ =&gt; (),
+        }
+    }
+}
+
+#}</code></pre></pre>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="./chapter_04/open_button.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="./chapter_04/keys.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="./chapter_04/open_button.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="./chapter_04/keys.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+    
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

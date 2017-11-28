@@ -1,5 +1,5 @@
 use gtk::*;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 /// A wrapped FileChooserDialog that automatically destroys itself upon being dropped.
 pub struct OpenDialog(FileChooserDialog);

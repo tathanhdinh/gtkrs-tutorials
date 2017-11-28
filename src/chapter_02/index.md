@@ -2,6 +2,8 @@
 
 <img src="images/ch02_complete.png" />
 
+> The source code for this chapter can be found [here](https://github.com/mmstick/gtkrs-tutorials/tree/master/demos/chapter_02).
+
 This section will give a look into how to structure your UI with boxes, manipulate labels,
 and programming clicked buttons with closures. By the end, you will also have an understanding
 of how to add children to a header bar, add style classes to buttons, manage application state

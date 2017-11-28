@@ -2,6 +2,8 @@
 
 <img src="images/headerbar.png" />
 
+> The source code for this chapter can be found [here](https://github.com/mmstick/gtkrs-tutorials/tree/master/demos/chapter_01).
+
 In this chapter, we will create a simple GTK application that features a header bar. This will
 serve as an introduction to the basics of creating a GTK application data structure to contain
 the widgets that you will later program, as well as spawning a GTK window and running your

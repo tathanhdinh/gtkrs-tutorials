@@ -1,6 +1,8 @@
 # Simple Common Mark Editor
 
-<img src="https://mmstick.github.io/gtkrs-tutorials/images/ch04_complete.png" />
+<img src="images/ch04_complete.png" />
+
+> The source code for this chapter can be found [here](https://github.com/mmstick/gtkrs-tutorials/tree/master/demos/chapter_04).
 
 In this chapter, we will create a useful program for editing text with
 Markdown syntax, particularly the Common Mark flavor of Markdown, and
@@ -14,6 +16,10 @@ how to use not only the **gtk** crate, but **gdk**, **pango**,
 > This chapter was actually written with the completed program that
 > we are going to build. So you could say that this tutorial is now
 > fully self-hosted and is eating it's own dog food.
+
+> HTML is allowed to be written in-line within this flavor of Markdown,
+> so it is possible to mix and match HTML with Markdown in the editor,
+> and to see it rendered properly on the right.
 
 ## Prerequisites
 
