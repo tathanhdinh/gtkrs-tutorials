@@ -1803,12 +1803,12 @@ impl ActiveMetadata {
 <a class="header" href="print.html#connecting-events" id="connecting-events"><h1>Connecting Events</h1></a>
 <p>This is where we begin to do the magic of getting our UI to actually
 do stuff. Revisiting our <strong>app.rs</strong> module, we will now add the
-<strong>connect_events()</strong> module to the impl for <strong>App</strong>.</p>
+<strong>App::connect_events()</strong> method.</p>
 <a class="header" href="print.html#connectedapp" id="connectedapp"><h2>ConnectedApp</h2></a>
 <p>Before we begin, however, we should create the <strong>ConnectedApp</strong> wrapper
 in advance, which implements the <strong>then_execute()</strong> method that we saw before.
 The goal will be to convert the <strong>App</strong> into a <strong>ConnectedApp</strong> after the
-<strong>connect_events()</strong> method is invoked on the <strong>App</strong>.</p>
+<strong>App::connect_events()</strong> method is invoked on the <strong>App</strong>.</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
 #fn main() {
 /// A wrapped `App` which provides the capability to execute the program.
@@ -1824,7 +1824,7 @@ impl ConnectedApp {
 
 #}</code></pre></pre>
 <a class="header" href="print.html#connect_events" id="connect_events"><h2>connect_events()</h2></a>
-<p>Moving on, we will finally add the <strong>connect_events()</strong> method to the <strong>impl</strong>
+<p>Moving on, we will finally add the <strong>App::connect_events()</strong> method to the <strong>impl</strong>
 for the <strong>App</strong> type, which we will define to take ownership of the <strong>App</strong>
 and return a <strong>ConnectedApp</strong> at the end. This is</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
@@ -1856,7 +1856,7 @@ extern state in regards to the currently-active file, we will create a
 <strong>Option&lt;ActiveMetadata&gt;</strong>. By default, this will be set to <strong>None</strong>,
 as at first there will not be a file opened to track.</p>
 <p>The first event to connect to our application will be to act upon changes
-to the source buffer, which we will implement in a <strong>editor_changed()</strong>
+to the source buffer, which we will implement in a <strong>App::editor_changed()</strong>
 method. This method will take a reference to our <strong>RwLock'd</strong> <strong>current_file</strong>,
 as well as a reference to the <strong>Save</strong> button. The purpose of passing the
 save button in will be to modify it's <em>sensitivity</em> based on the contents of
@@ -1941,7 +1941,7 @@ pub fn render(markdown: &amp;str) -&gt; String {
 <a class="header" href="print.html#updating-webviews" id="updating-webviews"><h1>Updating WebViews</h1></a>
 <p>The first capability that we will connect to our UI is to update the web view
 preview dynamically as text in the source buffer is changed. We will begin
-by creating a new <strong>editor_changed()</strong> method for <strong>App</strong>, which takes the
+by creating a new <strong>App::editor_changed()</strong> method for <strong>App</strong>, which takes the
 <strong>current_file</strong> component, and a reference to the <strong>save</strong> button so that we
 can disable and enable the button over time, to indicate whether changes have
 been made that require saving.</p>
@@ -2599,6 +2599,86 @@ pub fn save(
 
 #}</code></pre></pre>
 <a class="header" href="print.html#binding-keys" id="binding-keys"><h1>Binding Keys</h1></a>
+<p>Finally, we are going to also program some events for when the user presses
+certain keys and key combinations. In particular, to full screen the window
+when the user presses <strong>F11</strong>, and to save the file when the user presses
+<strong>Ctrl+S</strong>.</p>
+<a class="header" href="print.html#fullscreen-state--appconnect_events-changes" id="fullscreen-state--appconnect_events-changes"><h2>Fullscreen State &amp; App::connect_events() Changes</h2></a>
+<p>We are going to want to know when we should invoke either the
+<strong>Window::fullscreen()</strong> or <strong>Window::unfullscreen()</strong> methods, and so it
+will be important for us to store the state of the application's
+fullscreen-ness within a new <strong>AtomicBool</strong> that will represent the current
+state. This will be passed into our upcoming <strong>App::key_events()</strong> method,
+which also will take a reference to the current file's <strong>ActiveMetadata</strong>
+in order to perform operations like saving the active file.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub fn connect_events(self) -&gt; ConnectedApp {
+    // External state to share across events.
+    let current_file = Arc::new(RwLock::new(None));
+    // Keep track of whether we are fullscreened or not.
+    let fullscreen = Arc::new(AtomicBool::new(false));
+
+    {
+        let save = &amp;self.header.save;
+        let save_as = &amp;self.header.save_as;
+
+        // Connect all of the events that this UI will act upon.
+        self.editor_changed(current_file.clone(), &amp;save.clone());
+        self.open_file(current_file.clone());
+        self.save_event(&amp;save.clone(), &amp;save.clone(), current_file.clone(), false);
+        self.save_event(&amp;save, &amp;save_as, current_file.clone(), true);
+        self.key_events(current_file, fullscreen);
+    }
+
+    // Wrap the `App` within `ConnectedApp` to enable the developer to execute the program.
+    ConnectedApp(self)
+}
+
+#}</code></pre></pre>
+<a class="header" href="print.html#implementing-the-appkey_events-method" id="implementing-the-appkey_events-method"><h2>Implementing the App::key_events() Method</h2></a>
+<p>This is where the <strong>gdk</strong> crate immediately becomes important, as it will
+help us to determine which keys have been pressed by the user, and whether
+or not certain states were also enabled (such as whether Ctrl was held or
+not).</p>
+<p>Using the <strong>connect_key_press_event()</strong> method on the main window, we can
+handle key press events that will be sent through the <strong>gdk</strong> variable
+below. All you have to do is match the received state and key values, and
+then execute the functionality that you want to achieve.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+/// Handles special functions that should be invoked when certain keys and key combinations
+/// are pressed on the keyboard.
+fn key_events(
+    &amp;self,
+    current_file: Arc&lt;RwLock&lt;Option&lt;ActiveMetadata&gt;&gt;&gt;,
+    fullscreen: Arc&lt;AtomicBool&gt;,
+) {
+    // Grab required references beforehand.
+    let editor = self.content.source.buff.clone();
+    let headerbar = self.header.container.clone();
+    let save_button = self.header.save.clone();
+
+    // Each key press will invoke this function.
+    self.window.connect_key_press_event(move |window, gdk| {
+        match gdk.get_keyval() {
+            // Fullscreen the UI when F11 is pressed.
+            key::F11 =&gt; if fullscreen.fetch_xor(true, Ordering::SeqCst) {
+                window.unfullscreen();
+            } else {
+                window.fullscreen();
+            },
+            // Save the file when ctrl+s is pressed.
+            key if key == 's' as u32 &amp;&amp; gdk.get_state().contains(CONTROL_MASK) =&gt; {
+                save(&amp;editor, &amp;headerbar, &amp;save_button, &amp;current_file, false);
+            }
+            _ =&gt; (),
+        }
+        Inhibit(false)
+    });
+}
+
+#}</code></pre></pre>
 <a class="header" href="print.html#conclusion--review-2" id="conclusion--review-2"><h1>Conclusion &amp; Review</h1></a>
 <a class="header" href="print.html#mdbook-gui" id="mdbook-gui"><h1>mdBook GUI</h1></a>
 <a class="header" href="print.html#list-boxes-notebooks--stacks" id="list-boxes-notebooks--stacks"><h1>List Boxes, Notebooks, &amp; Stacks</h1></a>

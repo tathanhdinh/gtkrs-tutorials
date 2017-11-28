@@ -2,7 +2,7 @@
 
 The first capability that we will connect to our UI is to update the web view
 preview dynamically as text in the source buffer is changed. We will begin
-by creating a new **editor_changed()** method for **App**, which takes the
+by creating a new **App::editor_changed()** method for **App**, which takes the
 **current_file** component, and a reference to the **save** button so that we
 can disable and enable the button over time, to indicate whether changes have
 been made that require saving.

@@ -71,12 +71,12 @@
                     <a class="header" href="./chapter_04/programming.html#connecting-events" id="connecting-events"><h1>Connecting Events</h1></a>
 <p>This is where we begin to do the magic of getting our UI to actually
 do stuff. Revisiting our <strong>app.rs</strong> module, we will now add the
-<strong>connect_events()</strong> module to the impl for <strong>App</strong>.</p>
+<strong>App::connect_events()</strong> method.</p>
 <a class="header" href="./chapter_04/programming.html#connectedapp" id="connectedapp"><h2>ConnectedApp</h2></a>
 <p>Before we begin, however, we should create the <strong>ConnectedApp</strong> wrapper
 in advance, which implements the <strong>then_execute()</strong> method that we saw before.
 The goal will be to convert the <strong>App</strong> into a <strong>ConnectedApp</strong> after the
-<strong>connect_events()</strong> method is invoked on the <strong>App</strong>.</p>
+<strong>App::connect_events()</strong> method is invoked on the <strong>App</strong>.</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
 #fn main() {
 /// A wrapped `App` which provides the capability to execute the program.
@@ -92,7 +92,7 @@ impl ConnectedApp {
 
 #}</code></pre></pre>
 <a class="header" href="./chapter_04/programming.html#connect_events" id="connect_events"><h2>connect_events()</h2></a>
-<p>Moving on, we will finally add the <strong>connect_events()</strong> method to the <strong>impl</strong>
+<p>Moving on, we will finally add the <strong>App::connect_events()</strong> method to the <strong>impl</strong>
 for the <strong>App</strong> type, which we will define to take ownership of the <strong>App</strong>
 and return a <strong>ConnectedApp</strong> at the end. This is</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
@@ -124,7 +124,7 @@ extern state in regards to the currently-active file, we will create a
 <strong>Option&lt;ActiveMetadata&gt;</strong>. By default, this will be set to <strong>None</strong>,
 as at first there will not be a file opened to track.</p>
 <p>The first event to connect to our application will be to act upon changes
-to the source buffer, which we will implement in a <strong>editor_changed()</strong>
+to the source buffer, which we will implement in a <strong>App::editor_changed()</strong>
 method. This method will take a reference to our <strong>RwLock'd</strong> <strong>current_file</strong>,
 as well as a reference to the <strong>Save</strong> button. The purpose of passing the
 save button in will be to modify it's <em>sensitivity</em> based on the contents of
