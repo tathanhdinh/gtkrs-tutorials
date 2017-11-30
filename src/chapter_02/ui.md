@@ -34,7 +34,7 @@ pub struct Content {
 
 ## Creating the App Structure
 
-Starting with our **App** structure, we will do as the last tutorial, but our **new()** metheod
+Starting with our **App** structure, we will do as the last tutorial, but our **new()** method
 shall take a **&HealthComponent** as an input to set the initial value in the UI, later on
 down the road within our **Content** structure. One will note that we have added a new
 **content** variable of type **Context**, which takes that health reference.
