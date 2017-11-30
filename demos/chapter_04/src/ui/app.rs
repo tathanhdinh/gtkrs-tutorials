@@ -80,9 +80,9 @@ impl App {
             let save_as = &self.header.save_as;
 
             // Connect all of the events that this UI will act upon.
-            self.editor_changed(current_file.clone(), &save.clone());
+            self.editor_changed(current_file.clone(), &save);
             self.open_file(current_file.clone());
-            self.save_event(&save.clone(), &save.clone(), current_file.clone(), false);
+            self.save_event(&save, &save, current_file.clone(), false);
             self.save_event(&save, &save_as, current_file.clone(), true);
             self.key_events(current_file, fullscreen);
         }
