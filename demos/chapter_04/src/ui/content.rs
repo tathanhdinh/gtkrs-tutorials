@@ -45,31 +45,34 @@ impl Source {
         let container = ScrolledWindow::new(None, None);
         container.add(&view);
 
-        // Set source view settings
-        view.set_show_line_numbers(true);
-        view.set_monospace(true);
-        view.set_insert_spaces_instead_of_tabs(true);
-        view.set_indent_width(4);
-        // TODO: Next GTK Crate Release
-        // view.set_input_hints(InputHints::SPELLCHECK + InputHints::WORD_COMPLETION);
-
-        // Configures the font to use with our source view, which shall be the default monospace
-        // font, at size 11. When overriding the font, we need to explicitly state the trait
-        // from where the method is coming from, due to two methods implementing the same method.
-        let font = FontDescription::from_string("monospace 11");
-        WidgetExt::override_font(&view, &font);
-
-        // Configure markdown syntax highlighting
-        if let Some(markdown) = LanguageManager::new().get_language("markdown") {
-            buff.set_language(&markdown);
-        }
-
-        // Set the theme of source buffer
-        let manager = StyleSchemeManager::new();
-        if let Some(theme) = manager.get_scheme("Builder").or(manager.get_scheme("Classic")) {
-            buff.set_style_scheme(&theme);
-        }
+        configure_source_view(&view, &buff);
 
         Source { container, buff, view }
     }
+}
+
+fn configure_source_view(view: &View, buff: &Buffer) {
+    WidgetExt::override_font(view, &FontDescription::from_string("monospace"));
+
+    LanguageManager::new()
+        .get_language("markdown")
+        .map(|markdown| buff.set_language(&markdown));
+
+    let manager = StyleSchemeManager::new();
+    manager
+        .get_scheme("Builder")
+        .or(manager.get_scheme("Classic"))
+        .map(|theme| buff.set_style_scheme(&theme));
+
+    view.set_show_line_numbers(true);
+    view.set_monospace(true);
+    view.set_insert_spaces_instead_of_tabs(true);
+    view.set_indent_width(4);
+    view.set_smart_backspace(true);
+    view.set_right_margin(100);
+    view.set_left_margin(10);
+    view.set_show_right_margin(true);
+    view.set_background_pattern(BackgroundPatternType::Grid);
+    // TODO: Next GTK Crate Release
+    // view.set_input_hints(InputHints::SPELLCHECK + InputHints::WORD_COMPLETION);
 }

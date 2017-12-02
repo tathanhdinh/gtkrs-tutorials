@@ -251,15 +251,22 @@ let container = ScrolledWindow::new(None, None);
 container.add(&amp;view);
 
 #}</code></pre></pre>
-<p>Then we set our desired configurations:</p>
+<p>Then we set our desired configurations, using a function which takes our view and buffer:</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
 #fn main() {
-view.set_show_line_numbers(true);
-view.set_monospace(true);
-view.set_insert_spaces_instead_of_tabs(true);
-view.set_indent_width(4);
-// TODO: Next GTK Crate Release
-// view.set_input_hints(InputHints::SPELLCHECK + InputHints::WORD_COMPLETION);
+fn configure_source_view(view: &amp;View, buff: &amp;Buffer) {
+    view.set_show_line_numbers(true);
+    view.set_monospace(true);
+    view.set_insert_spaces_instead_of_tabs(true);
+    view.set_indent_width(4);
+    view.set_smart_backspace(true);
+    view.set_right_margin(100);
+    view.set_left_margin(10);
+    view.set_show_right_margin(true);
+    view.set_background_pattern(BackgroundPatternType::Grid);
+    // TODO: Next GTK Crate Release
+    // view.set_input_hints(InputHints::SPELLCHECK + InputHints::WORD_COMPLETION);
+}
 
 #}</code></pre></pre>
 <p>We can use the <strong>pango</strong> crate to change the font within the view. Note
@@ -280,9 +287,19 @@ directly to the source buffer, rather than the source view.</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
 #fn main() {
 // Configure markdown syntax highlighting
-if let Some(markdown) = LanguageManager::new().get_language(&quot;markdown&quot;) {
-    buff.set_language(&amp;markdown);
-}
+LanguageManager::new()
+    .get_language(&quot;markdown&quot;)
+    .map(|markdown| buff.set_language(&amp;markdown));
+
+#}</code></pre></pre>
+<p>We can also specify a scheme to use.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+let manager = StyleSchemeManager::new();
+    manager
+        .get_scheme(&quot;Builder&quot;)
+        .or(manager.get_scheme(&quot;Classic&quot;))
+        .map(|theme| buff.set_style_scheme(&amp;theme));
 
 #}</code></pre></pre>
 <a class="header" href="./chapter_04/ui.html#completed-source-code" id="completed-source-code"><h3>Completed Source Code</h3></a>
@@ -336,31 +353,36 @@ impl Source {
         let container = ScrolledWindow::new(None, None);
         container.add(&amp;view);
 
-        // Set source view settings
-        view.set_show_line_numbers(true);
-        view.set_monospace(true);
-        view.set_insert_spaces_instead_of_tabs(true);
-        view.set_indent_width(4);
-
-        // Configures the font to use with our source view, which shall be the default monospace
-        // font, at size 11. When overriding the font, we need to explicitly state the trait
-        // from where the method is coming from, due to two methods implementing the same method.
-        let font = FontDescription::from_string(&quot;monospace 11&quot;);
-        WidgetExt::override_font(&amp;view, &amp;font);
-
-        // Configure markdown syntax highlighting
-        if let Some(markdown) = LanguageManager::new().get_language(&quot;markdown&quot;) {
-            buff.set_language(&amp;markdown);
-        }
-
-        // Set the theme of source buffer
-        let manager = StyleSchemeManager::new();
-        if let Some(theme) = manager.get_scheme(&quot;Builder&quot;).or(manager.get_scheme(&quot;Classic&quot;)) {
-            buff.set_style_scheme(&amp;theme);
-        }
+        configure_source_view(&amp;view, &amp;buff);
 
         Source { container, buff, view }
     }
+}
+
+fn configure_source_view(view: &amp;View, buff: &amp;Buffer) {
+    WidgetExt::override_font(view, &amp;FontDescription::from_string(&quot;monospace&quot;));
+
+    LanguageManager::new()
+        .get_language(&quot;markdown&quot;)
+        .map(|markdown| buff.set_language(&amp;markdown));
+
+    let manager = StyleSchemeManager::new();
+    manager
+        .get_scheme(&quot;Builder&quot;)
+        .or(manager.get_scheme(&quot;Classic&quot;))
+        .map(|theme| buff.set_style_scheme(&amp;theme));
+
+    view.set_show_line_numbers(true);
+    view.set_monospace(true);
+    view.set_insert_spaces_instead_of_tabs(true);
+    view.set_indent_width(4);
+    view.set_smart_backspace(true);
+    view.set_right_margin(100);
+    view.set_left_margin(10);
+    view.set_show_right_margin(true);
+    view.set_background_pattern(BackgroundPatternType::Grid);
+    // TODO: Next GTK Crate Release
+    // view.set_input_hints(InputHints::SPELLCHECK + InputHints::WORD_COMPLETION);
 }
 
 #}</code></pre></pre>
@@ -406,20 +428,6 @@ impl Source {
 
         <!-- Livereload script (if served using the cli tool) -->
         
-        <script type="text/javascript">
-            var socket = new WebSocket("ws://localhost:3001");
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload(true); // force reload from server (not from cache)
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
-    
 
         
 

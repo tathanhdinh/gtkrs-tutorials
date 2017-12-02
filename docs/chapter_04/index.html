@@ -99,17 +99,21 @@ values to be mutably borrowed across multiple threads and closures.</p>
 <a class="header" href="./chapter_04/index.html#dependencies" id="dependencies"><h2>Dependencies</h2></a>
 <p>Your dependency list should look similar to the following:</p>
 <pre><code class="language-toml">[dependencies]
-gdk = &quot;0.6.0&quot;
+gdk = &quot;0.6&quot;
 horrorshow = &quot;0.6.2&quot;
 pango = &quot;0.2.0&quot;
 pulldown-cmark = &quot;0.1.0&quot;
-sourceview = &quot;0.2&quot;
 tiny-keccak = &quot;1.4.0&quot;
 webkit2gtk = &quot;0.2&quot;
+
+[dependencies.sourceview]
+features = [&quot;v3_18&quot;]
+version = &quot;0.2&quot;
 
 [dependencies.gtk]
 features = [&quot;v3_22&quot;]
 version = &quot;0.2&quot;
+
 </code></pre>
 <a class="header" href="./chapter_04/index.html#pulldown-cmark" id="pulldown-cmark"><h3>pulldown-cmark</h3></a>
 <p>One will note that we have introduced a few new crates to the mix. Google
@@ -173,20 +177,6 @@ a live preview of our edited Markdown.</p>
 
         <!-- Livereload script (if served using the cli tool) -->
         
-        <script type="text/javascript">
-            var socket = new WebSocket("ws://localhost:3001");
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload(true); // force reload from server (not from cache)
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
-    
 
         
 
