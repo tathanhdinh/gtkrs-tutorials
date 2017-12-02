@@ -30,7 +30,7 @@ fn main() {
         let health = health.clone();
         let message = app.content.message.clone();
         let info = app.content.health.clone();
-        app.header.hit.clone().connect_clicked(move |_| {
+        app.header.hit.connect_clicked(move |_| {
             let new_health = health.subtract(1);
             let action = if new_health == 0 { Message::Dead } else { Message::Hit };
             message.set_label(MESSAGES[action as usize]);
@@ -43,7 +43,7 @@ fn main() {
         let health = health.clone();
         let message = app.content.message.clone();
         let info = app.content.health.clone();
-        app.header.heal.clone().connect_clicked(move |_| {
+        app.header.heal.connect_clicked(move |_| {
             let new_health = health.heal(5);
             message.set_label(MESSAGES[Message::Heal as usize]);
             info.set_label(new_health.to_string().as_str());

@@ -28,6 +28,8 @@ cargo doc
 
 Which will compile the documentation into **target/doc/gtk/index.html**.
 
+Or you can look docs online on http://gtk-rs.org/docs/gtk.
+
 ## Tips Regarding Navigating the GTK Rust API
 
 <img src="images/api-diagram.png" />
