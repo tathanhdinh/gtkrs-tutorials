@@ -75,7 +75,7 @@ if let (Some(title), Some(tags), Some(content)) = inputs {
 }
 ```
 
-Althugh we have yet to define our **generate_html** function, and this will be the final
+Although we have yet to define our **generate_html** function, and this will be the final
 component for implementing this application. The simplest way to use the **html!** macro is to
 use it as an argument within the **format!** macro. And so, our function will look as so,
 although you are free to implement the HTML macro however you like.
@@ -105,7 +105,7 @@ fn generate_html(title: &str, tags: &str, content: &str) -> String {
 ```
 
 The above syntax should be fairly readable. We create a pair of **article** tags, which contain
-a both a pair of **header** tags, and and a **p** paragraph for each non-empty line of input that
+a both a pair of **header** tags, and a **p** paragraph for each non-empty line of input that
 was obtained from the **content** text buffer. Within the **header** tags is a **h1** header that
 is defined to use the title entry as the text within, and a **div** that contains a list of tags,
 delimited by colons.
