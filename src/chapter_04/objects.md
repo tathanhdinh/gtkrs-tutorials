@@ -7,7 +7,7 @@
 Provided by the [webkit2gtk crate](https://crates.io/crates/webkit2gtk), this a widget that
 already integrates a scrolled window and simply provides an embedded web engine for rendering
 HTML. The purpose of this widget within this chapter is to provide the rendered HTML
-representations of the markdown text within the source buffer.
+representations of the Markdown text within the source buffer.
 
 ```rust
 let context = WebContext::get_default().unwrap();
