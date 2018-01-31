@@ -16,7 +16,7 @@ The goal will be to convert the **App** into a **ConnectedApp** after the
 pub struct ConnectedApp(App);
 
 impl ConnectedApp {
-    /// Display the window, and execute the gtk main event loop.
+    /// Display the window, and execute GTK main event loop.
     pub fn then_execute(self) {
         self.0.window.show_all();
         gtk::main();
