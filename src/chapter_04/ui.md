@@ -246,7 +246,7 @@ let manager = StyleSchemeManager::new();
         .map(|theme| buff.set_style_scheme(&theme));
 ```
 
-### Completed Source Code
+## Completed Source Code
 
 Altogether, the source code for this file should be as follows:
 
