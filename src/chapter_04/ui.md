@@ -11,8 +11,8 @@ These three files will hold the **App**, **ConnectedApp**, **Header**,
 
 Now that UI-related code is separated into it's own module, it's
 important to declare all of the submodules that this module will
-important, and declare any types and functions that this module
-should re-export.
+import, and declare any types and functions that this module should
+re-export.
 
 ```rust
 mod app;
