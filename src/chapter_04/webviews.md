@@ -3,7 +3,7 @@
 The first capability that we will connect to our UI is to update the web view
 preview dynamically as text in the source buffer is changed. We will begin
 by creating a new **App::editor_changed()** method for **App**, which takes the
-**current_file** component, and a reference to the **save** button so that we
+**current_file** component, and a reference to the **Save** button so that we
 can disable and enable the button over time, to indicate whether changes have
 been made that require saving.
 
@@ -29,11 +29,9 @@ fn editor_changed(
 ```
 
 ## connect_changed()
-
-In the above code, you may notice that we are calling utilizing the
-**connect_changed** method from the source buffer to update the preview
-and modify the save button as the buffer is modified.
-
+In the above code, you may notice that we are calling the
+**connect_changed()** method from the source buffer to update the preview and
+modify the **Save** button as the buffer is modified.
 ## Obtaining Text From a Source Buffer
 
 Using the **get_buffer()** function from the **misc.rs** module:
@@ -46,14 +44,14 @@ if let Some(markdown) = get_buffer(&editor) {
 
 We can obtain the text within the editor's buffer.
 
-## Updating the Web View
+## Updating the WebView
 
 ```rust
 preview.load_html(&render(&markdown), None);
 ```
 
 Whereas here we are using the **render()** function from the **preview** module
-to convert the `markdown` text into an HTML string; and then immediately pass
+to convert the Markdown text into an HTML string; and then immediately pass
 that HTML into our `preview` web view with the **load_html()** method.
 
 ## Modifying the Save Button
@@ -61,7 +59,7 @@ that HTML into our `preview` web view with the **load_html()** method.
 The last piece of the puzzle is this section, where we obtain a read-only
 lock to the current file, and check if the text in the buffer generates
 the same hash as the the hash we saved to the disk. If there's a match,
-the save button will be disabled; and if there's no match, it will be
+the **Save** button will be disabled; and if there's no match, it will be
 enabled.
 
 ```rust

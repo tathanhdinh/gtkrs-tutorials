@@ -11,8 +11,8 @@ These three files will hold the **App**, **ConnectedApp**, **Header**,
 
 Now that UI-related code is separated into it's own module, it's
 important to declare all of the submodules that this module will
-important, and declare any types and functions that this module
-should re-export.
+import, and declare any types and functions that this module should
+re-export.
 
 ```rust
 mod app;
@@ -246,7 +246,7 @@ let manager = StyleSchemeManager::new();
         .map(|theme| buff.set_style_scheme(&theme));
 ```
 
-### Completed Source Code
+## Completed Source Code
 
 Altogether, the source code for this file should be as follows:
 
