@@ -52,7 +52,7 @@ WidgetExt::override_font(&source_view, &font);
 **GtkFileChooserDialogs** will be used to program the file open/save/save as buttons. They
 simply open a file chooser dialog where you are given the choice to select a file. The GTK
 Rust API is a bit under-developed in this part, as you will see. One particular gotcha is
-that the **FileChooserDialogs** that you obtain from this API do not take advantage of
+that the **GtkFileChooserDialogs** that you obtain from this API do not take advantage of
 Rust's **Drop** trait. Not to worry though, as we will be creating abstractions ourselves.
 
 ```rust
