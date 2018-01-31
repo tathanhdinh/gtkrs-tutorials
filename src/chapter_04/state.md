@@ -3,7 +3,7 @@
 This section covers the **state.rs** module which will hold the types that
 we will be using to maintain non-GTK external state across the GTK UI. This
 will honestly be incredibly simple and short, because this iteration of the
-markdown editor does not have much state to be concerned about.
+Markdown editor does not have much state to be concerned about.
 
 ## Planning What We Need
 
