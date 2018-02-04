@@ -96,7 +96,7 @@ pub enum SaveAction {
 
 ## Writing Data & Getting a SaveAction
 
-The **write_data** private function will be used to write the given source
+The **write_data()** private function will be used to write the given source
 buffer's **data** to a file, and report back with the result of the save
 action. If this was the **Save** button and there exists a pre-existing
 **ActiveMetadata**, then this will merely write the data to the existing

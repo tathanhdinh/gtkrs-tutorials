@@ -27,7 +27,7 @@ pub fn connect_events(self) -> ConnectedApp {
 
 ### connect_clicked()
 
-Now, the **open_file** method will simply be grabbing references to the editor's
+Now, the **open_file()** method will simply be grabbing references to the editor's
 source buffer, to write the opened file's data into the buffer; then grabbing a
 reference to the web view so that we can update it after opening the file; a
 reference to the header bar so that we can update the title and subtitle; and

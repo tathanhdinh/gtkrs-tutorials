@@ -6,7 +6,7 @@ The GTK Rust API does not take advantage of the **Drop** trait within
 Rust, which means that when a dialog is spawned, it will continue
 to remain in existence on your screen forever. Thankfully, we can
 address this ourselves by creating wrapper types for
-**GtkFileChooserDialogs** and implementing the **Drop** trait on
+**GtkFileChooserDialog**s and implementing the **Drop** trait on
 them to destroy the inner dialog upon dropping the type.
 
 ## Creating an OpenDialog
