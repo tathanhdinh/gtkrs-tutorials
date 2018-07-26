@@ -52,7 +52,7 @@ those **IsA\<T\>** types that are implemented, such as **WidgetExt**.
 <img src="images/rust_vs_gtk.png" />
 
 GTK objects have their own mechanisms of reference counting, and are designed so that
-you don't require ownersip or mutable access to modify them. This simplifies things greatly,
+you don't require ownership or mutable access to modify them. This simplifies things greatly,
 as you will only have to worry about borrowing and ownership with native Rust types. The only
 thing that you need to be aware of is that you will need to increment reference counters when
 passing GTK objects into closures to program your UI, which is done by cloning the object.
